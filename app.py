@@ -19,5 +19,4 @@ def purchasing():
     return render_template('purchasing.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
-"""Set debug=False and run behind a WSGI server for production!"""
+    app.run(host='0.0.0.0', port=5000)
