@@ -1,34 +1,90 @@
 # elevate-retail
 Forsyth Tech class of '25 Capstone Project
 
-## Quick start guide
-### To start the GitHub Codespace
-- Click on the green button toward the upper right: [< > Code]
-- Click on the link for the name of the Codespace: "shiny space spork"
-  - I didn't choose the name but I dig it
+## Prerequisites
 
-After authenticating you should be directed to a new browser tab with an instance of VS Code running and the project already open.
+Before you begin, ensure you have the following installed on your local machine:
 
+- [Git](https://git-scm.com/)
+- [Python 3.8+](https://www.python.org/downloads/)  <!-- Replace this with the specific version you are using -->
+- [Visual Studio Code (VS Code)](https://code.visualstudio.com/)
+- [VS Code Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+
+## Getting Started
+
+Follow these steps to set up and run the project on your local machine:
+
+### 1. Clone the Repository
+
+Open a terminal and run the following command to clone the repository:
+
+```bash
+git clone https://github.com/Cyber-Kaeh/elevate-retail.git
+cd elevate-retail
+```
+
+### 2. Set Up a Virtual Environment
+
+Create a virtual environment to manage your project dependencies:
+
+```bash
+python -m venv venv
+```
+
+Activate the virtual environment:
+
+- **Windows**:
+  ```bash
+  venv\Scripts\activate
+  ```
+- **macOS/Linux**:
+  ```bash
+  source venv/bin/activate
+  ```
+
+### 3. Install Dependencies
+
+Install the required Python packages using `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Open the Project in VS Code
+
+Open VS Code and navigate to the project directory:
+
+```bash
+code .
+```
+  
+## Using the Flask app
 ### Starting the web app
-*This will take place inside VS Code Codespace that opens*
-- Ensure the terminal is running and ready to accept commands.
-  - It may take a few minutes for the environment to completely load, you will see a typical command line when ready
+- Open a new terminal in VS Code
 - Ensure you are in the root directory of the elevate retail project.
-- Start the app with this flask command:
-  `flask --app app run`
-- A pop up will annouce you may view the running application in a browser window.
-  - This is good. Click it! If it fails ensure flask command is properly typed. If still fails contact support with error code.
-- Enjoy! You should see the web page in another browser window now, if not retrace steps or contact support.
+- Start the app with this flask command:  
+  ```bash
+  flask --app app run
+  ```
+- You should see output similiar to this:
+```bash
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+```
+- Navigate to the address listed, or in VS Code `Ctl + click` on the link
 
 ### Shutting down
-To stop the running flask app navigate back to the terminal in VS Code enter [ctl + c]
+To stop the running flask app navigate back to the terminal in VS Code enter `Ctl + c`
 This will stop the server and return your access to the terminal.
-To stop the Codespace you can close out the browser window.
 
 ## Important Notes
 - Do not push changes to main branch. Always (_always_) create a new branch for developing new features.
-- The flask app is currently running in debug mode so that means you _should_ be able to make changes to the code and it will automatically update. Sometimes the changes don't take effect though, so just stop the server in the terminal with [ctl + c] then retstart with `flask --app app run`
-- You can clone this repository to your local machine to work on it or test with it but you must make sure all versions and dependcies line up correctly. This Codespace will hopefully eliminate the "I dunno, it runs on my machine" problem... hopefully.
+- If you want to run the app in 'debug' mode add the debug flag to the end of the command when starting the Flask app. Debug mode will allow you to make changes to the app and see them in real time, or with a reload, as apposed to having to shut down and restart the server.  
+  ```bash
+  flask --app app run --debug
+  ```
 - Flask is a lightweight but very powerful framework for Python. Using it is like using any other library we have learned about in class, like TKinter, NumPy, or Pandas. There is a learning curve for getting used to it, but it still just uses Python3 under the hood and solves problems the same way. We still have to think through the problems and figure out how to solve them with Python. Flask will just help us by reducing the lines of code we actually have to type, but the trade-off is we will have to scour the documentation and forums to figure out how to translate our solutions.
 - This is more of a side note: I included Bootstrap v5.3 in this project to make the front-end stuff easier and faster. It is a framework for CSS and is pretty awesome, but we shouldn't have to worry about it too much.
 
