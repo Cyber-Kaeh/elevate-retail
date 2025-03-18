@@ -1,0 +1,1 @@
+DATABASE_URL = "sqlite:///data/elevate_retail.db"

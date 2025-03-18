@@ -1,6 +1,9 @@
 from flask import Flask, render_template
+from src.routes.inventory_routes import inventory_bp
 
 app = Flask(__name__)
+
+app.register_blueprint(inventory_bp)
 
 @app.route('/')
 def home():
