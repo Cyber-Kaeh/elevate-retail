@@ -12,6 +12,7 @@
                     <h5 class="card-title">{{ item.name }}</h5>
                     <p class="card-text">Quantity: {{ item.quantity }}</p>
                     <p class="card-text">Price: ${{ item.price }}</p>
+                    <a href="/checkout/{{ item.id }}" class="btn btn-primary float-right">Checkout</a>
                 </div>
             </div>
         </div>

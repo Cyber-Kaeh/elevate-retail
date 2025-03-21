@@ -1,8 +1,51 @@
+<!--
+I implemented a simple modal here to show an example of how we can can
+perform a single purchase. The modal can be used to capture any information
+we need from the user. There is an example on the Bootstrap Docs page
+that will handle form validation here:
+https://getbootstrap.com/docs/5.3/forms/validation/
+-Anthony Allen
+-->
+
 {% extends "base.html" %}
 
 {% block title %}Checkout{% endblock %}
 
 {% block content %}
-<h1>Checkout Page</h1>
-<p>Welcome to the checkout page.</p>
+<div class="container mt-5">
+    <h1>Checkout</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <p class="card-text">Price: ${{ item.price }}</p>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                        Confirm Purchase
+                    </button>
+                    <a href="/inventory" class="btn btn-secondary">Cancel</a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmModalLabel">Confirm Purchase</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Thank you for shopping with Elevate Retail!
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <a href="/inventory" class="btn btn-primary">Continue Shopping</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
