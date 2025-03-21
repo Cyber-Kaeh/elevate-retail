@@ -27,5 +27,10 @@ def purchasing():
     return render_template('purchasing.html')
 
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

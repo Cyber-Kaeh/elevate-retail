@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>About Us</h1>
+    <p>A place for all of our beautiful, smiling faces!</p>
+    <img src="{{ url_for('static', filename='smiley.png') }}" alt="Smiley Face" class="img-fluid mt-4">
+</div>
+
+{% endblock %}
