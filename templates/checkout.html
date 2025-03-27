@@ -48,4 +48,22 @@ https://getbootstrap.com/docs/5.3/forms/validation/
         </div>
     </div>
 </div>
+<div class="mt-5">
+    <h2>Shopping Cart</h2>
+    {% if session.cart %}
+    <ul class="list-group">
+        {% for item_id in session.cart %}
+        <li class="list-group-item">
+            Item ID: {{ item_id }}
+            Item Name: {{ item.name }}
+            Item Price: ${{ item.price }}
+            <a href="/remove_from_cart/{{ item_id }}" class="btn btn-danger btn-sm float-right">Remove</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+</div>
 {% endblock %}
