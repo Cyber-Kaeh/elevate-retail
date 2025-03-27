@@ -2,3 +2,5 @@ flask
 werkzeug
 flask-bootstrap
 flask-sqlalchemy
+flask-sessions
+
