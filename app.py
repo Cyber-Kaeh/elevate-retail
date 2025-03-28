@@ -1,13 +1,19 @@
+import secrets
 from flask import Flask, render_template, session
 from flask_sqlalchemy import SQLAlchemy
+from flask_session import Session
+from werkzeug import *
 from src.routes.inventory_routes import inventory_bp, single_checkout_bp
 from src.routes.cart_routes import cart_bp
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///elevate_retail.db'
-app.config['SECRET_KEY'] = 'super_secret'  # secrets.token_hex(32)
+app.config['SECRET_KEY'] = secrets.token_hex(32)
 app.config['SESSION_TYPE'] = 'sqlalchemy'
-db = SQLAlchemy(app)
+db = SQLAlchemy(app)  # Create a single SQLAlchemy instance
+app.config['SESSION_SQLALCHEMY'] = db
+
+Session(app)
 
 app.register_blueprint(inventory_bp)
 app.register_blueprint(single_checkout_bp)
@@ -17,7 +23,7 @@ app.register_blueprint(cart_bp)
 @app.before_request
 def make_session_permanent():
     session.permanent = True
-    # app.permanent_session_lifetime = 3600
+    app.permanent_session_lifetime = 3600
 
 
 @app.route('/')

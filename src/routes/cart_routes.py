@@ -25,14 +25,18 @@ def remove_from_cart(item_id):
 @cart_bp.route('/cart', methods=['GET'])
 def view_cart():
     cart_item_ids = session.get('cart', [])
-    print(f"Cart item IDs: {cart_item_ids}")
     # item = [get_inventory_item_by_id(item_id) for item_id in cart_item_ids]
     items = []
     for item_id in cart_item_ids:
         item = get_inventory_item_by_id(item_id)
         if item:
-            items.append(item)
-    
+            items.append({
+                'id': item.id,
+                'name': item.name,
+                'quantity': item.quantity,
+                'price': item.price
+            })
+
     # Calculate the total price
-    total_price = sum(item.price * item.quantity for item in items)
-    return render_template('cart.html', item=items, total_price=total_price)
+    total_price = sum(item['price'] * item['quantity'] for item in items)
+    return render_template('cart.html', items=items, total_price=total_price)

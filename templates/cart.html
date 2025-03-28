@@ -19,9 +19,10 @@
             <tbody>
                 {% for item in items %}
                     <tr>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>${{ item.price }}</td>
+                        <td>{{ item['name'] }}</td>
+                        <td>{{ item['quantity'] }}</td>
+                        <td>${{ item['price'] }}</td>
+                        <td>${{ item.price * item.quantity }}</td>
                         <td>
                             <form action="/cart/remove/{{ item.id }}" method="POST">
                                 <button type="submit" class="btn btn-danger btn-sm">Remove</button>

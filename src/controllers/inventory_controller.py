@@ -26,4 +26,5 @@ def get_inventory_items():
 def get_inventory_item_by_id(item_id):
     session = get_session()
     item = session.query(Inventory).filter(Inventory.id == item_id).first()
+    print(item)
     return item
