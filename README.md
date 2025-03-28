@@ -1,5 +1,6 @@
 # elevate-retail
-Forsyth Tech class of '25 Capstone Project
+Forsyth Tech class of '25 Capstone Project  
+![Project Logo](static/logo.jpg)
 
 ## Prerequisites
 
@@ -9,54 +10,25 @@ Before you begin, ensure you have the following installed on your local machine:
 - [Python 3.8+](https://www.python.org/downloads/)  <!-- Replace this with the specific version you are using -->
 - [Visual Studio Code (VS Code)](https://code.visualstudio.com/)
 - [VS Code Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+  - Can be installed through VS Code
+
+If Planning on using Dev Containers in VS Code:
+
+- [Docker Desktop](https://www.docker.com/get-started/)
+- [Dev Containers](https://code.visualstudio.com/docs/devcontainers/tutorial)
+  - Can be installed through VS Code
+
+An active GitHub account. You can also register as a student for access to the Pro features.
+
+- [GitHub Singup](https://github.com/signup)
 
 ## Getting Started
 
-Follow these steps to set up and run the project on your local machine:
+To get started with this project please refer to the following guides:
 
-### 1. Clone the Repository
-
-Open a terminal and run the following command to clone the repository:
-
-```bash
-git clone https://github.com/Cyber-Kaeh/elevate-retail.git
-cd elevate-retail
-```
-
-### 2. Set Up a Virtual Environment
-
-Create a virtual environment to manage your project dependencies:
-
-```bash
-python -m venv venv
-```
-
-Activate the virtual environment:
-
-- **Windows**:
-  ```bash
-  venv\Scripts\activate
-  ```
-- **macOS/Linux**:
-  ```bash
-  source venv/bin/activate
-  ```
-
-### 3. Install Dependencies
-
-Install the required Python packages using `requirements.txt`:
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Open the Project in VS Code
-
-Open VS Code and navigate to the project directory:
-
-```bash
-code .
-```
+- [Getting Started with Codespaces](./docs/getting_started_codespaces.md) :star:
+- [Getting Started Locally](./docs/getting_started_locally.md) :computer:
+- [VS Code Dev Container](./docs/getting_started_devcontainer) :whale:
   
 ## Using the Flask app
 ### Starting the web app
@@ -92,3 +64,4 @@ This will stop the server and return your access to the terminal.
 
 [Flask Documentation](https://flask.palletsprojects.com/en/stable/quickstart/)  
 [Bootstrap Documentation](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+[Docker Documentation](https://docs.docker.com/)

@@ -35,3 +35,10 @@ Install the required Python packages using `requirements.txt`:
 ```bash
 pip install -r requirements.txt
 ```
+
+<u>**Navigation:**</u>
+
+- [Home](../README.md)
+- [Next Steps](./starting_the_app.md)
+- [Other Options](../README.md#getting-started)
+- [Git Crashcourse](./git-crashcourse.md)
