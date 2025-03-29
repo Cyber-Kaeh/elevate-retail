@@ -16,7 +16,19 @@ or changes required.
 1. Log in to GitHub and navigate to the repository:
     - https://github.com/Cyber-Kaeh/elevate-retail
 
-2. Click on the <a href="#" style="display: inline-block; padding: 8px 16px; font-size: 16px; font-weight: bold; color: #fff; background-color: #2ea44f; border-radius: 6px; text-decoration: none;"> < > Code &#9660;</a> button and then 'Open with Codespaces'
+2. Click on the 
+<a href="#" 
+   style="display: inline-block; 
+          padding: 8px 16px; 
+          font-size: 16px; 
+          font-weight: bold; 
+          color: #fff; 
+          background-color: #2ea44f; 
+          border-radius: 6px; 
+          text-decoration: none;">
+   Code &#9660;
+</a>
+ button and then 'Open with Codespaces'
 
 3. Follow the on-screen instructions to set up your Codespaces environment
     - It should recognize that there is a .devcontainer file already present and ask if you want to use that, click yes.  
