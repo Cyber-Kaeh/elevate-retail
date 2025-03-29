@@ -3,17 +3,17 @@
 GitHub Codespaces is a cloud IDE solution to help teams work on a project in an
 isolated development environment without having to worry about managing concerns
 for operating systems and dependencies.  
-Put simply, this allows us to use VS Code in a web browser with no local set up
-or changes required.
+Put simply, this allows us to use VS Code in a web browser with no local setup
+or changes required.  
 [Codespaces Documentation](https://docs.github.com/en/codespaces)
 
 ## Prerequisites
 
-- GitHub account
+- A GitHub account
   
 ## Setup
 
-1. Log in to GitHub and navigate to the repository
+1. Log in to GitHub and navigate to the repository:
     - https://github.com/Cyber-Kaeh/elevate-retail
 
 2. Click on the 
@@ -36,12 +36,12 @@ vscode ➜ /workspaces/ft_capstone/elevate-retail (main) $
 
 The .devcontainer file *should* also perform a `git pull` to ensure you are up to date with the current repository. If you don't see all the same files from the repository on the left or if you cannot start the Flask app, then it most likely did not automatically pull.  
 
-That is ok though, because it is best practice to always make sure you are up to date every time you first sit down to code. I have outlined a brief Git crashcourse with the commands you should run the first time you start this project, along with every time you start a new coding session.  
+That is ok though, because it is best practice to always make sure you are up to date every time you first sit down to code. I have outlined a brief Git crash course with the commands you should run the first time you start this project, along with every time you start a new coding session.  
 
-Check out the crashcourse first, then head over to the instructions on how to start the projects web app.  
+Check out the crash course first, then head over to the instructions on how to start the project's web app.  
 
 ## <u>Navigation</u>
 - [Home](../README.md)
-- [Starting the app](./starting_the_app.md)
+- [Starting The App](./starting_the_app.md)
 - [Other Options](../README.md#getting-started)
 - [Git Crashcourse](./git-crashcourse.md)

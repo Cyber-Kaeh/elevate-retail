@@ -1,6 +1,8 @@
+# Getting Started Locally
+
 Follow these steps to set up and run the project on your local machine:
 
-### 1. Clone the Repository
+## 1. Clone the Repository
 
 Open a terminal and run the following command to clone the repository:
 
@@ -9,7 +11,7 @@ git clone https://github.com/Cyber-Kaeh/elevate-retail.git
 cd elevate-retail
 ```
 
-### 2. Set Up a Virtual Environment
+## 2. Set Up a Virtual Environment
 
 Create a virtual environment to manage your project dependencies:
 
@@ -28,7 +30,7 @@ Activate the virtual environment:
   source venv/bin/activate
   ```
 
-### 3. Install Dependencies
+## 3. Install Dependencies
 
 Install the required Python packages using `requirements.txt`:
 
@@ -36,8 +38,16 @@ Install the required Python packages using `requirements.txt`:
 pip install -r requirements.txt
 ```
 
-<u>**Navigation:**</u>
+## 4. Run Git Fetch & Git Pull
 
+Make sure the repository and branches are up to date by running these commands in the terminal:
+
+```bash
+git fetch --all
+git pull origin main
+```
+
+## <u>Navigation</u>
 - [Home](../README.md)
 - [Next Steps](./starting_the_app.md)
 - [Other Options](../README.md#getting-started)
