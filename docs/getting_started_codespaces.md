@@ -26,7 +26,7 @@ or changes required.
           background-color: #2ea44f; 
           border-radius: 6px; 
           text-decoration: none;">
-   Code &#9660;
+   <span> < > Code &#9660; </span>
 </a>
  button and then 'Open with Codespaces'
 
