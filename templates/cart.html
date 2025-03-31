@@ -1,7 +1,10 @@
 {% extends "base.html" %} {% block title %}Cart{% endblock %} {% block content
 %}
 
-<div class="container mt-4 p-3 rounded shadow">
+<div
+  class="container mt-5 p-3 rounded shadow"
+  style="background-color: #c2d6d6"
+>
   <h1>Shopping Cart</h1>
   {% if items %}
   <table
@@ -24,7 +27,7 @@
         <td>${{ item['price'] }}</td>
         <td>${{ item.price * item.quantity }}</td>
         <td>
-          <form action="/cart/remove/{{ item.id }}" method="POST">
+          <form action="/remove_from_cart/{{ item.id }}" method="POST">
             <button type="submit" class="btn btn-danger btn-sm">Remove</button>
           </form>
         </td>
@@ -33,9 +36,21 @@
     </tbody>
   </table>
 
-  <div class="d-flex justify-content-between">
+  <div class="d-flex justify-content-between align-items-center">
     <h3>Total: ${{ total_price }}</h3>
-    <a href="/checkout" class="btn btn-primary">Checkout</a>
+    <div class="d-flex gap-2">
+      <a href="/checkout" class="btn btn-outline-success shadow"
+        >Confirm Purchase</a
+      >
+      <button
+        type="button"
+        class="btn btn-outline-secondary shadow"
+        data-bs-toggle="modal"
+        data-bs-target="#confirmModal"
+      >
+        Guest Purchase
+      </button>
+    </div>
   </div>
 
   {% else %}
