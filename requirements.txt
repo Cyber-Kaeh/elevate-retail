@@ -2,5 +2,4 @@ flask
 werkzeug
 flask-bootstrap
 flask-sqlalchemy
-flask-session
-
+Flask-Session
