@@ -10,3 +10,11 @@ class Inventory(Base):
     name = Column(String, nullable=False)
     quantity = Column(Integer, nullable=False)
     price = Column(Float, nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'quantity': self.quantity,
+            'price': self.price
+        }
