@@ -1,12 +1,17 @@
 import secrets
-from flask import Flask, render_template, session
+from flask import Flask, redirect, render_template, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from werkzeug import *
+from flask_wtf.csrf import CSRFProtect
+
+from src.models.forms import LoginForm
 from src.routes.inventory_routes import inventory_bp, single_checkout_bp
 from src.routes.cart_routes import cart_bp
 
 app = Flask(__name__)
+csrf = CSRFProtect(app)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///elevate_retail.db'
 app.config['SECRET_KEY'] = secrets.token_hex(32)
 app.config['SESSION_TYPE'] = 'sqlalchemy'
@@ -55,6 +60,21 @@ def purchasing():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        session['alert_message'] = "Login worked! Update me with real logic please!"
+        return redirect(url_for('cart.view_cart'))
+    return render_template('cart.html', form=form)
+
+
+"""Probably need to make a new user authentication blueprint but this is more for testing
+    the shopping cart UI and login modal - Anthony Allen"""
 
 
 if __name__ == '__main__':

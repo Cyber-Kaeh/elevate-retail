@@ -22,6 +22,6 @@ def view_inventory():
 @single_checkout_bp.route('/checkout/<int:item_id>', methods=['GET'])
 def single_checkout(item_id):
     item = get_inventory_item_by_id(item_id)
-    return render_template('checkout.html', item=item)
+    return render_template('cart.html', item=item)
     """This function attaches the the item_id to url so we can grab
     it on the checkout page. - Anthony Allen"""

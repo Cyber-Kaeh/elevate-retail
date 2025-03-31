@@ -3,3 +3,5 @@ werkzeug
 flask-bootstrap
 flask-sqlalchemy
 Flask-Session
+Flask-WTF
+email-validator

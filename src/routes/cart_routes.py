@@ -1,4 +1,5 @@
 from flask import Blueprint, session, redirect, url_for, request, render_template
+from src.models.forms import LoginForm
 from src.controllers.inventory_controller import get_inventory_item_by_id
 
 cart_bp = Blueprint('cart', __name__)
@@ -23,7 +24,9 @@ def remove_from_cart(item_id):
 
 @cart_bp.route('/cart', methods=['GET'])
 def view_cart():
+    form = LoginForm()
     cart_item_ids = session.get('cart', [])
+    alert_message = session.pop('alert_message', None)
     # item = [get_inventory_item_by_id(item_id) for item_id in cart_item_ids]
     items = []
     for item_id in cart_item_ids:
@@ -37,7 +40,7 @@ def view_cart():
             })
     # Calculate the total price
     total_price = sum(item['price'] * item['quantity'] for item in items)
-    return render_template('cart.html', items=items, total_price=total_price)
+    return render_template('cart.html', items=items, total_price=total_price, form=form, alert_message=alert_message)
 
 
 @cart_bp.app_context_processor

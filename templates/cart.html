@@ -1,6 +1,13 @@
 {% extends "base.html" %} {% block title %}Cart{% endblock %} {% block content
 %}
 
+<!-- Alert message, remove for production -->
+{% if alert_message %}
+<script>
+  alert("{{ alert_message }}")
+</script>
+{% endif %}
+
 <div
   class="container mt-5 p-3 rounded shadow"
   style="background-color: #c2d6d6"
@@ -28,6 +35,7 @@
         <td>${{ item.price * item.quantity }}</td>
         <td>
           <form action="/remove_from_cart/{{ item.id }}" method="POST">
+            {{ form.hidden_tag() }}
             <button type="submit" class="btn btn-danger btn-sm">Remove</button>
           </form>
         </td>
@@ -39,14 +47,20 @@
   <div class="d-flex justify-content-between align-items-center">
     <h3>Total: ${{ total_price }}</h3>
     <div class="d-flex gap-2">
-      <a href="/checkout" class="btn btn-outline-success shadow"
-        >Confirm Purchase</a
+      <button
+        type="button"
+        class="btn btn-outline-success shadow"
+        data-bs-toggle="modal"
+        data-bs-target="#loginModal"
       >
+        Confirm Purchase
+      </button>
       <button
         type="button"
         class="btn btn-outline-secondary shadow"
         data-bs-toggle="modal"
-        data-bs-target="#confirmModal"
+        data-bs-target="#loginModal"
+        disabled
       >
         Guest Purchase
       </button>
@@ -57,4 +71,48 @@
   <p>Your cart is empty.</p>
   {% endif %}
 </div>
+<!-- Modals -->
+
+<!-- Confirm Purchase Button Modal-->
+<!-- Only opens dummy login form for now -->
+<div
+  class="modal fade"
+  id="loginModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="loginModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Please Log to Continue</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="/login">
+          {{ form.hidden_tag() }}
+          <div class="form-floating mb-3">
+            {{ form.email(class="form-control", placeholder="Email Address") }}
+            {{ form.email.label(class="form-label") }}
+          </div>
+          <div class="form-floating">
+            {{ form.password(class="form-control", placeholder="Password") }} {{
+            form.password.label(class="form-label") }}
+          </div>
+          <div class="mb-3">
+            {{ form.submit(class="btn btn-primary mt-3") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
