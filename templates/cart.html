@@ -1,45 +1,45 @@
-{% extends "base.html" %}
-{% block title %}Cart{% endblock %}
+{% extends "base.html" %} {% block title %}Cart{% endblock %} {% block content
+%}
 
-{% block content %}
+<div class="container mt-4 p-3 rounded shadow">
+  <h1>Shopping Cart</h1>
+  {% if items %}
+  <table
+    class="table table-hover table-secondary table-striped p-5 rounded-3 overflow-hidden shadow"
+  >
+    <thead>
+      <tr>
+        <th scope="col">Product</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Price</th>
+        <th scope="col">Total</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td>{{ item['name'] }}</td>
+        <td>{{ item['quantity'] }}</td>
+        <td>${{ item['price'] }}</td>
+        <td>${{ item.price * item.quantity }}</td>
+        <td>
+          <form action="/cart/remove/{{ item.id }}" method="POST">
+            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-<div class="container mt-4">
-    <h1>Shopping Cart</h1>
-    {% if items %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Product</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in items %}
-                    <tr>
-                        <td>{{ item['name'] }}</td>
-                        <td>{{ item['quantity'] }}</td>
-                        <td>${{ item['price'] }}</td>
-                        <td>${{ item.price * item.quantity }}</td>
-                        <td>
-                            <form action="/cart/remove/{{ item.id }}" method="POST">
-                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+  <div class="d-flex justify-content-between">
+    <h3>Total: ${{ total_price }}</h3>
+    <a href="/checkout" class="btn btn-primary">Checkout</a>
+  </div>
 
-        <div class="d-flex justify-content-between">
-            <h3>Total: ${{ total_price }}</h3>
-            <a href="/checkout" class="btn btn-primary">Checkout</a>
-        </div>
-
-    {% else %}
-        <p>Your cart is empty.</p>
-    {% endif %}
+  {% else %}
+  <p>Your cart is empty.</p>
+  {% endif %}
 </div>
 {% endblock %}

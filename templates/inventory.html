@@ -1,23 +1,31 @@
-{% extends "base.html" %}
-
-{% block title %}Inventory{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Inventory{% endblock %} {% block
+content %}
 <div class="container mt-5">
-    <div class="row">
-        {% for item in items %}
-        <div class="col-md-4">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.name }}</h5>
-                    <p class="card-text">Quantity: {{ item.quantity }}</p>
-                    <p class="card-text">Price: ${{ item.price }}</p>
-                    <a href="/checkout/{{ item.id }}" class="btn btn-primary float-right">Checkout</a>
-                    <a href="/add_to_cart/{{ item.id }}" class="btn btn-primary float-right">Add to Cart</a>
-                </div>
-            </div>
+  <div class="row">
+    {% for item in items %}
+    <div class="col-md-4">
+      <div
+        class="card mb-4 text-dark rounded-3 shadow"
+        style="background-color: #c2d6d6"
+      >
+        <div class="card-body">
+          <h5 class="card-title">{{ item.name }}</h5>
+          <p class="card-text">Quantity: {{ item.quantity }}</p>
+          <p class="card-text">Price: ${{ item.price }}</p>
+          <a
+            href="/checkout/{{ item.id }}"
+            class="btn btn-outline-success float-right"
+            >Checkout</a
+          >
+          <a
+            href="/add_to_cart/{{ item.id }}"
+            class="btn btn-outline-secondary float-right"
+            >Add to Cart</a
+          >
         </div>
-        {% endfor %}
+      </div>
     </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}

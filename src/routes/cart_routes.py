@@ -36,7 +36,12 @@ def view_cart():
                 'quantity': item.quantity,
                 'price': item.price
             })
-
     # Calculate the total price
     total_price = sum(item['price'] * item['quantity'] for item in items)
     return render_template('cart.html', items=items, total_price=total_price)
+
+
+@cart_bp.app_context_processor
+def inject_cart_item_count():
+    cart_item_count = len(session.get('cart', []))
+    return {'cart_item_count': cart_item_count}

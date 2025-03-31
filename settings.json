@@ -1,0 +1,27 @@
+{
+    "workbench.colorTheme": "Default Dark+",
+    "liveServer.settings.donotShowInfoMsg": true,
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "editor.inlineSuggest.enabled": false,
+    "css.completion.completePropertyWithSemicolon": false,
+    "less.completion.completePropertyWithSemicolon": false,
+    "scss.completion.completePropertyWithSemicolon": false
+}

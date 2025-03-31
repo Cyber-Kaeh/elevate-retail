@@ -1,15 +1,21 @@
-{% extends "base.html" %}
-
-{% block title %}Welcome to Elevate Retail{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Welcome to Elevate Retail{% endblock
+%} {% block content %}
 <div class="container py-5">
-    <div class="container bg-light p-5 rounded">
-        <h1 class="display-4">Welcome to Elevate Retail!</h1>
-        <p class="lead">Your one-stop shop for all your retail needs.</p>
-        <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Smiley Face" class="img-fluid mt-4">
-    </div>
-    
-    <a class="btn btn-primary btn-lg mt-4" href="/inventory" role="button">Explore Inventory</a>
+  <div class="container p-5 rounded" style="background-color: #c2d6d6">
+    <h1 class="display-4">Welcome to Elevate Retail!</h1>
+    <p class="lead">Your one-stop shop for all your retail needs.</p>
+    <img
+      src="{{ url_for('static', filename='logo.jpg') }}"
+      alt="Smiley Face"
+      class="img-fluid mt-4"
+    />
+  </div>
+
+  <a
+    class="btn btn-outline-secondary btn-lg mt-4 text-dark"
+    href="/inventory"
+    role="button"
+    >Explore Inventory</a
+  >
 </div>
 {% endblock %}
