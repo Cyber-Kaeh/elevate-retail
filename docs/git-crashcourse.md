@@ -35,7 +35,7 @@ If everything looks good, then continue coding and making changes. What is reall
 
 ## First Commit
 
-I don't actually recommend that you make huge crazy changes to the code. You can; it's fine; I just don't recommend it. I sometimes think of it as a save point in video games. I'm safe right now, the code is working, but I want to change something or try to refactor some code somewhere. It's like knowing the next screen will be a boss fight. I might not be able to beat him (i.e. make a successful refactor) but its ok because I can just load back into my save point and try again. Or not, I could just decide to keep going, and I didn't really need that refactor/boss anyway. You could also create a new branch for a scenario where there is a large change, but for now, we will stick with commits.  
+I don't actually recommend that you make huge crazy changes to the code. You can; it's fine; I just don't recommend it. I sometimes think of it as a save point in video games. I'm safe right now, the code is working, but I want to change something or try to refactor some code somewhere. It's like knowing the next screen will be a boss fight. I might not be able to beat him (i.e. make a successful refactor) but it's ok because I can just load back into my save point and try again. Or not, I could just decide to keep going, and I didn't really need that refactor/boss anyway. You could also create a new branch for a scenario where there is a large change, but for now, we will stick with commits.  
 
 You have made changes and tested the code. Now, you want a snapshot of your code in this state.
 
@@ -74,7 +74,7 @@ Example workflow from start to finish:
 #Just starting for the day
 git fetch --all
 git pull
-# Check status of repo and make sure your on the right branch
+# Check status of repo and make sure you're on the right branch
 git status
 # Switch branches if not "development" for example
 git checkout development
@@ -170,20 +170,27 @@ git fetch --all
 git pull
 git pull <branch>
 git status
+
 # Change branch
 git checkout <branch-name>
+
 # Create branch
 git <new-branch-name>
+
 # Create && change to branch
 git checkout -b <new-branch-name>
+
 # Track new files
 git add <path/to/file/>
 git add .  # all files in dir
+
 # Commit changes
 git commit -m "commit description"
+
 # Push changes to GitHub
 git push origin main
 git push origin <branch-name>
+
 # Merge target branch into current branch
 git merge <target-branch-name>
 ```
