@@ -62,6 +62,11 @@ def about():
     return render_template('about.html')
 
 
+@app.route('/guest-purchase-form')
+def guest_purchase_form():
+    return render_template('guest-purchase-form.html')
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
