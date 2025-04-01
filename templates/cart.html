@@ -59,8 +59,7 @@
         type="button"
         class="btn btn-outline-secondary shadow"
         data-bs-toggle="modal"
-        data-bs-target="#loginModal"
-        disabled
+        data-bs-target="#guestPurchaseModal"
       >
         Guest Purchase
       </button>
@@ -114,5 +113,53 @@
     </div>
   </div>
 </div>
+<!--Guest Purchase Modal-->
+<div
+  class="modal fade"
+  id="guestPurchaseModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="guestPurchaseModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="guestPurchaseModalLabel">
+          Guest Purchase Form
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" id="guestPurchaseContent">
+        <!-- Content will be injected here -->
+      </div>
+    </div>
+  </div>
+</div>
 
+<!--AJAX logic to inject page into modal-->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var guestPurchaseButton = document.querySelector(
+      '[data-bs-target="#guestPurchaseModal"]'
+    )
+    guestPurchaseButton.addEventListener("click", function () {
+      var xhr = new XMLHttpRequest()
+      xhr.open("GET", "/guest-purchase-form", true)
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          document.getElementById("guestPurchaseContent").innerHTML =
+            xhr.responseText
+        }
+      }
+      xhr.send()
+    })
+  })
+</script>
 {% endblock %}
