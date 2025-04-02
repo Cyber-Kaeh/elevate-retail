@@ -41,16 +41,22 @@ def remove_all_of_item(item_id):
     return redirect(url_for('cart.view_cart'))
 
 
+@cart_bp.route('/clear_cart', methods=['GET'])
+def clear_cart():
+    session.pop('cart', None)
+    session.modified = True
+    return render_template('landing.html', items=[], total_price=0)
+
+
 @cart_bp.route('/cart', methods=['GET'])
 def view_cart():
     form = LoginForm()
     cart_items = session.get('cart', [])
     alert_message = session.pop('alert_message', None)
-    # item = [get_inventory_item_by_id(item_id) for item_id in cart_item_ids]
     items = []
     for cart_item in cart_items:
         item = get_inventory_item_by_id(cart_item['id'])
-        if item:
+        if item and cart_item['quantity'] > 0:
             items.append({
                 'id': item['id'],
                 'name': item['name'],
@@ -65,8 +71,4 @@ def view_cart():
 @cart_bp.app_context_processor
 def inject_cart_item_count():
     cart_items = session.get('cart', [])
-    # print(cart_items)
-    # count = 0
-    # for item in cart_items:
-    #     count += item['quantity']
     return {'cart_item_count': sum([item['quantity'] for item in cart_items])}
