@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-# Shopping Cart Functionality
+# Task Heading
 
 ## Current Behavior
 Describe what feature needs to be enhanced or created here.
