@@ -1,5 +1,5 @@
 ---
-name: Project Tasks
+name: 'Project Tasks: '
 about: General issue template for assigning tasks to collaborators
 title: Project Tasks
 labels: ''
