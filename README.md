@@ -31,6 +31,12 @@ To get started with this project please refer to the following guides:
 - [VS Code Dev Container](./docs/getting_started_devcontainer.md) :whale:
 - [Git Crashcourse](./docs/git-crashcourse.md) :globe_with_meridians:
 
+## Running the app
+  
+Once you have everything installed and you want to actually see the app in a browser follow this guide:
+
+- [Running The App](./docs/starting_the_app.md)  
+
 # External Links
 
 [Flask Documentation](https://flask.palletsprojects.com/en/stable/quickstart/)  
