@@ -1,7 +1,6 @@
-from sqlalchemy import DECIMAL, Column, Date, ForeignKey, Integer, String
+from sqlalchemy import DECIMAL, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from src.models import Shopping_Cart_Item
 
 Base = declarative_base()
 
@@ -13,7 +12,7 @@ class Inventory(Base):
         "Product.Product_ID"), nullable=False)
     Quantity = Column(Integer, nullable=False)
     Unit_Price = Column(DECIMAL(8, 2), nullable=False)
-    Deleted_At = Column(Integer)
+    Deleted_At = Column(DateTime)
 
     product = relationship('Product', back_populates='inventory')
 
@@ -29,13 +28,13 @@ class Inventory(Base):
 class Product(Base):
     __tablename__ = 'Product'
     Product_ID = Column(Integer, primary_key=True)
-    Name = Column(String(255))
-    Description = Column(String(255))
-    Category_ID = Column(String(100), ForeignKey(
+    Name = Column(String(100))
+    Description = Column(String(1000))
+    Category_ID = Column(Integer, ForeignKey(
         'Product_Category.Category_ID'))
     Supplier_ID = Column(Integer, ForeignKey('Supplier.Supplier_ID'))
     Image_URL = Column(String(255))
-    Deleted_At = Column(Date)
+    Deleted_At = Column(DateTime)
 
     inventory = relationship(
         'Inventory', back_populates='product', uselist=False)
@@ -45,7 +44,7 @@ class Product(Base):
 class Product_Category(Base):
     __tablename__ = 'Product_Category'
     Category_ID = Column(Integer, primary_key=True)
-    Name = Column(String(255))
-    Description = Column(String(255))
+    Name = Column(String(100))
+    Description = Column(String(1000))
 
     category = relationship('Product', back_populates='product_category')
