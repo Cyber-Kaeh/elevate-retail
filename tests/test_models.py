@@ -1,5 +1,5 @@
 import unittest
-from config.test_config import session
+from src.config.test_config import session
 from src.models.customer import Customer
 from src.models.member import Member
 

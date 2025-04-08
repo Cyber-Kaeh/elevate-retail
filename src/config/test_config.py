@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from src.models.base import Base
 
 # SQL Server URI compatible with SQLAlchemy
-SQLALCHEMY_DATABASE_URI = 'mssql+pyodbc://SA:YourStrong!Passw0rd@localhost:1433/master?driver=ODBC+Driver+17+for+SQL+Server;TrustServerCertificate=yes'
+SQLALCHEMY_DATABASE_URI = 'mssql+pyodbc://SA:YourStrong!Passw0rd@localhost:1433/test_database?driver=ODBC+Driver+18+for+SQL+Server;TrustServerCertificate=yes;Encrypt=Optional'
 
 # Create an engine
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
