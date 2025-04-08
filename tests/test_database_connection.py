@@ -1,4 +1,5 @@
 import unittest
+import pyodbc
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 from src.config.test_config import SQLALCHEMY_DATABASE_URI, session
