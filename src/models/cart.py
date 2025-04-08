@@ -1,3 +1,6 @@
+"""
+outdated shopping cart models. should be able to delete this file
+"""
 from sqlalchemy import Column, Integer, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
