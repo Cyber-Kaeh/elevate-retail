@@ -5,8 +5,8 @@ from .base import Base
 
 
 class Member(Base):
-    __tablename__ = "member"
-    membership_level = Column(String(50), primary_key=True)
-    discount_rate = Column(DECIMAL(5, 2))
+    __tablename__ = "Member"
+    Membership_Level = Column(String(50), primary_key=True)
+    Discount_Rate = Column(DECIMAL(5, 2))
 
     customers = relationship("Customer", back_populates="member")

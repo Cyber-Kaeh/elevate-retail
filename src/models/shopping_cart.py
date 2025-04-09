@@ -5,9 +5,10 @@ from .base import Base
 
 
 class ShoppingCart(Base):
-    __tablename__ = 'shopping_cart'
+    __tablename__ = 'Shopping_Cart'
     cart_id = Column(Integer, primary_key=True)
-    cust_id = Column(Integer, ForeignKey('customer.id'), nullable=False)
+    cust_id = Column(Integer, ForeignKey(
+        'Customer.Customer_ID'), nullable=False)
     created_at = Column(DateTime, default=lambda: datetime.now(
         datetime.timezone.utc), nullable=False)
     updated_at = Column(DateTime, default=lambda: datetime.now(

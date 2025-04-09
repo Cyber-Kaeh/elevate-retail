@@ -5,17 +5,18 @@ from .base import Base
 
 
 class Product(Base):
-    __tablename__ = 'product'
+    __tablename__ = 'Product'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False)
     description = Column(String(1000))
     category_id = Column(Integer, ForeignKey(
-        'product_category.id'), nullable=False)
-    supplier_id = Column(Integer, ForeignKey('supplier.id'), nullable=False)
+        'Product_Category.Category_ID'), nullable=False)
+    supplier_id = Column(Integer, ForeignKey(
+        'Supplier.Supplier_ID'), nullable=False)
     image_url = Column(String(255))
     deleted_at = Column(DateTime, nullable=True)
 
-    category = relationship("ProductCategory", back_populates="products")
+    category = relationship("ProductCategory", back_populates="product")
     supplier = relationship("Supplier", back_populates="products")
     purchase_order_items = relationship(
         "PurchaseOrderItem", back_populates="product")

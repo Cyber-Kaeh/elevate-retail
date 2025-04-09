@@ -5,7 +5,7 @@ from .base import Base
 
 
 class CustomerAddress(Base):
-    __tablename__ = 'customer_address'
+    __tablename__ = 'Customer_Address'
     id = Column(Integer, primary_key=True, autoincrement=True)
     address_line_1 = Column(String(50), nullable=False)
     address_line_2 = Column(String(35))
@@ -13,7 +13,8 @@ class CustomerAddress(Base):
     state = Column(String(50), nullable=False)
     zip_code = Column(String(10), nullable=False)
     country = Column(String(50), nullable=False)
-    customer_id = Column(Integer, ForeignKey('customer.id'), nullable=False)
+    customer_id = Column(Integer, ForeignKey(
+        'Customer.Customer_ID'), nullable=False)
     created_at = Column(DateTime, default=lambda: datetime.now(
         datetime.timezone.utc), nullable=False)
     updated_at = Column(DateTime, default=lambda: datetime.now(

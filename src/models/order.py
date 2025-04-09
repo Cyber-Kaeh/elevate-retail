@@ -5,10 +5,11 @@ from .base import Base
 
 
 class Order(Base):
-    __tablename__ = 'order'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    customer_id = Column(Integer, ForeignKey('customer.id'), nullable=False)
-    order_date = Column(DateTime, default=lambda: datetime.now(
+    __tablename__ = 'Order'
+    Order_ID = Column(Integer, primary_key=True, autoincrement=True)
+    Customer_ID = Column(Integer, ForeignKey(
+        'Customer.Customer_ID'), nullable=False)
+    Order_Date = Column(DateTime, default=lambda: datetime.now(
         datetime.timezone.utc), nullable=False)
 
     customer = relationship("Customer")
