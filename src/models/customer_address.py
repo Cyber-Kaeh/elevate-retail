@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from .base import Base
@@ -6,19 +6,17 @@ from .base import Base
 
 class CustomerAddress(Base):
     __tablename__ = 'Customer_Address'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    address_line_1 = Column(String(50), nullable=False)
-    address_line_2 = Column(String(35))
-    city = Column(String(50), nullable=False)
-    state = Column(String(50), nullable=False)
-    zip_code = Column(String(10), nullable=False)
-    country = Column(String(50), nullable=False)
-    customer_id = Column(Integer, ForeignKey(
+    Address_ID = Column(Integer, primary_key=True, autoincrement=True)
+    Address_Line_1 = Column(String(50), nullable=False)
+    Address_Line_2 = Column(String(35), nullable=True)
+    City = Column(String(50), nullable=False)
+    State = Column(String(50), nullable=False)
+    Zip_Code = Column(String(10), nullable=False)
+    Country = Column(String(50), nullable=False)
+    Customer_ID = Column(Integer, ForeignKey(
         'Customer.Customer_ID'), nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(
-        datetime.timezone.utc), nullable=False)
-    updated_at = Column(DateTime, default=lambda: datetime.now(
-        datetime.timezone.utc), onupdate=lambda: datetime.now(datetime.timezone.utc), nullable=False)
+    Created_At = Column(DateTime, default=func.now(), nullable=False)
+    Updated_At = Column(DateTime, onupdate=func.utc_timestamp(), nullable=True)
     deleted_at = Column(DateTime, nullable=True)
 
     customer = relationship("Customer", back_populates="addresses")

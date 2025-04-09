@@ -5,9 +5,10 @@ from .base import Base
 
 
 class PurchaseOrder(Base):
-    __tablename__ = 'purchase_order'
+    __tablename__ = 'Purchase_Order'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    supplier_id = Column(Integer, ForeignKey('supplier.id'), nullable=False)
+    supplier_id = Column(Integer, ForeignKey(
+        'Supplier.Supplier_ID'), nullable=False)
     order_date = Column(DateTime, default=lambda: datetime.now(
         datetime.timezone.utc), nullable=False)
     status = Column(String(15), nullable=False)

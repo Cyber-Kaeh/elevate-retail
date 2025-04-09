@@ -1,18 +1,16 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from .base import Base
 
 
 class Payment(Base):
-    __tablename__ = 'payment'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    order_id = Column(Integer, ForeignKey('order.id'), nullable=False)
-    method = Column(String(50), nullable=False)
-    status = Column(String(50))
-    created_at = Column(DateTime, default=lambda: datetime.now(
-        datetime.timezone.utc), nullable=False)
-    updated_at = Column(DateTime, default=lambda: datetime.now(
-        datetime.timezone.utc), onupdate=lambda: datetime.now(datetime.timezone.utc), nullable=False)
+    __tablename__ = 'Payment'
+    Payment_ID = Column(Integer, primary_key=True, autoincrement=True)
+    Order_ID = Column(Integer, ForeignKey('Order.Order_ID'), nullable=False)
+    Method = Column(String(50), nullable=False)
+    Status = Column(String(50))
+    Created_At = Column(DateTime, default=func.now(), nullable=False)
+    Updated_At = Column(DateTime, onupdate=func.utc_timestamp(), nullable=True)
 
-    order = relationship("Order", back_populates="payment")
+    ordered_payment = relationship("Order", back_populates="payment")

@@ -6,15 +6,13 @@ from .base import Base
 
 class Discount(Base):
     __tablename__ = 'discount'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    discount_type = Column(String(15), nullable=False)
-    amount = Column(DECIMAL(5, 2), nullable=False)
-    start_date = Column(DateTime, default=lambda: datetime.now(
-        datetime.timezone.utc), nullable=False)
-    end_date = Column(DateTime, default=lambda: datetime.now(
-        datetime.timezone.utc), nullable=False)
-    product_id = Column(Integer, ForeignKey('product.id'))
-    order_id = Column(Integer, ForeignKey('order.id'))
+    Discount_ID = Column(Integer, primary_key=True, autoincrement=True)
+    Discount_Type = Column(String(15), nullable=False)
+    Amount = Column(DECIMAL(5, 2), nullable=False)
+    Start_Date = Column(DateTime, nullable=False)
+    End_Date = Column(DateTime, nullable=False)
+    Product_ID = Column(Integer, ForeignKey('Product.Product_ID'))
+    Order_ID = Column(Integer, ForeignKey('Order.Order_ID'))
 
-    product = relationship("Product", back_populates="discounts")
+    discounted_product = relationship("Product", back_populates="discounts")
     order = relationship("Order", back_populates="discounts")

@@ -1,20 +1,21 @@
-from sqlalchemy import Column, Integer, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from .base import Base
 
 
 class PurchaseOrderItem(Base):
-    __tablename__ = 'purchase_order_item'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    purchase_order_id = Column(Integer, ForeignKey(
-        'purchase_order.id'), nullable=False)
-    product_id = Column(Integer, ForeignKey('product.id'), nullable=False)
-    quantity = Column(Integer, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(
-        datetime.timezone.utc), nullable=False)
-    updated_at = Column(DateTime, default=lambda: datetime.now(
-        datetime.timezone.utc), onupdate=lambda: datetime.now(datetime.timezone.utc), nullable=False)
+    __tablename__ = 'Purchase_Order_Item'
+    Purchase_Order_Item_ID = Column(
+        Integer, primary_key=True, autoincrement=True)
+    Purchase_Order_ID = Column(Integer, ForeignKey(
+        'Purchase_Order.id'), nullable=False)
+    Product_ID = Column(Integer, ForeignKey(
+        'Product.Product_ID'), nullable=False)
+    Quantity = Column(Integer, nullable=False)
+    Created_At = Column(DateTime, default=func.now(), nullable=False)
+    Updated_At = Column(DateTime, onupdate=func.utc_timestamp(), nullable=True)
 
     purchase_order = relationship("PurchaseOrder", back_populates="items")
-    product = relationship("Product", back_populates="purchase_order_items")
+    ordered_product = relationship(
+        "Product", back_populates="purchase_order_items")

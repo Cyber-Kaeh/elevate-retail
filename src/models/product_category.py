@@ -9,4 +9,4 @@ class ProductCategory(Base):
     Name = Column(String(100))
     Description = Column(String(1000))
 
-    product = relationship('Product', back_populates='category')
+    products = relationship('Product', back_populates='category')

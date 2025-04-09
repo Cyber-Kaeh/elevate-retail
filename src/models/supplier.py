@@ -12,7 +12,8 @@ class Supplier(Base):
     Contact_Phone = Column(String(20), nullable=False)
 
     # Relationships (if needed in the future)
-    products = relationship("Product", back_populates="supplier")
+    supplied_products = relationship("Product", back_populates="supplier")
+    purchase_orders = relationship("PurchaseOrder", back_populates="supplier")
 
     def __repr__(self):
         return f"<Supplier(Supplier_ID={self.Supplier_ID}, Supplier_Name='{self.Supplier_Name}', Contact_Name='{self.Contact_Name}')>"

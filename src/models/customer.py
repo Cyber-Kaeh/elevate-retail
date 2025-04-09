@@ -29,8 +29,11 @@ class Customer(Base):
     member = relationship("Member", back_populates="customers")
     addresses = relationship(
         "CustomerAddress", back_populates="customer", cascade="all, delete-orphan")
-    orders = relationship("Order", back_populates="customer")
+    orders = relationship(
+        "Order", back_populates="customer", overlaps="customer_id")
     shopping_carts = relationship("ShoppingCart", back_populates="customer")
+    customer_id = relationship(
+        "Order", back_populates="customer", overlaps="orders")
 
     """Commented out Password field because it is not on the EERD"""
 

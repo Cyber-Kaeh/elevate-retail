@@ -1,20 +1,19 @@
-from sqlalchemy import Column, Integer, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from .base import Base
 
 
 class ShoppingCartItem(Base):
-    __tablename__ = "shopping_cart_item"
-    cart_id = Column(Integer, ForeignKey(
-        "shopping_sart.id"), primary_key=True)
-    inventory_id = Column(Integer, ForeignKey(
-        "inventory.id"), primary_key=True)
-    quantity = Column(Integer, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(
-        datetime.timezone.utc), nullable=False)
-    updated_at = Column(DateTime, default=lambda: datetime.now(
-        datetime.timezone.utc), onupdate=lambda: datetime.now(datetime.timezone.utc), nullable=False)
+    __tablename__ = "Shopping_Cart_Item"
+    Cart_ID = Column(Integer, ForeignKey(
+        "Shopping_Cart.Cart_ID"), primary_key=True)
+    Inventory_ID = Column(Integer, ForeignKey(
+        "Inventory.Inventory_ID"), primary_key=True)
+    Quantity = Column(Integer, nullable=False)
+    Created_At = Column(DateTime, default=func.now(), nullable=False)
+    Updated_At = Column(DateTime, onupdate=func.utc_timestamp(), nullable=True)
 
-    cart = relationship("ShoppingCart", back_populates="items")
-    inventory = relationship("Inventory", back_populates="cart_items")
+    cart = relationship("ShoppingCart", back_populates="cart_items")
+    inventory_item_cart = relationship(
+        "Inventory", back_populates="cart_items_inv")
