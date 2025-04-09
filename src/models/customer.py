@@ -3,6 +3,10 @@ from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from .base import Base
+from src.models.customer_address import CustomerAddress
+from src.models.order import Order
+from src.models.shopping_cart import ShoppingCart
+from src.models.member import Member
 
 
 class Customer(Base):
@@ -22,14 +26,12 @@ class Customer(Base):
     deleted_at = Column(DateTime, nullable=True)
 
     member = relationship("Member", back_populates="customers")
-    addresses = relationship("CustomerAddress", back_populates="customer")
+    addresses = relationship(
+        "CustomerAddress", back_populates="customer", cascade="all, delete-orphan")
     orders = relationship("Order", back_populates="customer")
     shopping_carts = relationship("ShoppingCart", back_populates="customer")
 
     """Commented out Password field because it is not on the EERD"""
-
-    membership_level = relationship(
-        "Membership_Level", back_populates="customer")
 
     """Functions to hash and check password"""
 
