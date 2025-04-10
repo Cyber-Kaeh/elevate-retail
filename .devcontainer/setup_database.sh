@@ -69,8 +69,8 @@ run_command docker exec "$CONTAINER_NAME" /opt/mssql-tools18/bin/sqlcmd \
     -S localhost -U SA -P "$SA_PASSWORD" -C -Q "CREATE DATABASE $DATABASE_NAME;"
 
 # Copy sql files into container
-docker cp ~/elevate-retail/src/config/Elevate_Create_Table.sql sqlserver:/tmp
-docker cp ~/elevate-retail/src/config/Elevate_Insert.sql sqlserver:/tmp
+docker cp /workspaces/elevate-retail/src/config/Elevate_Create_Table.sql sqlserver:/tmp
+docker cp /workspaces/elevate-retail/src/config/Elevate_Insert.sql sqlserver:/tmp
 echo "SQL files successfully copied into container"
 
 # Run the SQL scripts
