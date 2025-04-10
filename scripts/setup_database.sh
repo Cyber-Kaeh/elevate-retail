@@ -5,7 +5,7 @@ SQL_SERVER_IMAGE="mcr.microsoft.com/mssql/server:2019-latest"
 CONTAINER_NAME="sqlserver"
 SA_PASSWORD="Secure1passw0rd"
 DATABASE_NAME="elevate_retail"
-SQL_SCRIPTS_PATH="/workspaces/elevate-retail/src/config"
+SQL_SCRIPTS_PATH="/tmp"
 CREATE_TABLE_SCRIPT="${SQL_SCRIPTS_PATH}/Elevate_Create_Table.sql"
 INSERT_DATA_SCRIPT="${SQL_SCRIPTS_PATH}/Elevate_Insert.sql"
 
@@ -56,12 +56,17 @@ echo "Creating database '$DATABASE_NAME'..."
 run_command docker exec "$CONTAINER_NAME" /opt/mssql-tools18/bin/sqlcmd \
     -S localhost -U SA -P "$SA_PASSWORD" -C -Q "CREATE DATABASE $DATABASE_NAME;"
 
+# Copy sql files into container
+docker cp ~/elevate-retail/src/config/Elevate_Create_Table.sql sqlserver:/tmp
+docker cp ~/elevate-retail/src/config/Elevate_Insert.sql sqlserver:/tmp
+echo "SQL files successfully copied into container"
+
 # Run the SQL scripts
-echo "Running SQL script: $CREATE_TABLE_SCRIPT"
+echo "Creating tables..."
 run_command docker exec -i "$CONTAINER_NAME" /opt/mssql-tools18/bin/sqlcmd \
     -S localhost -U SA -P "$SA_PASSWORD" -d "$DATABASE_NAME" -C -i "$CREATE_TABLE_SCRIPT"
 
-echo "Running SQL script: $INSERT_DATA_SCRIPT"
+echo "Inserting data into tables..."
 run_command docker exec -i "$CONTAINER_NAME" /opt/mssql-tools18/bin/sqlcmd \
     -S localhost -U SA -P "$SA_PASSWORD" -d "$DATABASE_NAME" -C -i "$INSERT_DATA_SCRIPT"
 
