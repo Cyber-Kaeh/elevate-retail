@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Ask the user for confirmation before running script
+echo "Do you want to install and set up SQL Server 2019 in Docker? [Y/n]"
+read -r response
+
+response=$(echo "$response" | tr '[:upper:]' '[:lower:]')
+if [[ "$response" == "y" || "$response" == "yes" ]]; then
+    echo "Proceeding with database setup..."
+else
+    echo "Database setup aborted by user..."
+    exit 0
+fi
+
 # Configuration
 SQL_SERVER_IMAGE="mcr.microsoft.com/mssql/server:2019-latest"
 CONTAINER_NAME="sqlserver"
