@@ -13,3 +13,7 @@ EXPOSE 1433
 # Install Python dependencies
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt
+
+# Copy and make the setup_database.sh script executable
+COPY scripts/setup_database.sh /scripts/setup_database.sh
+RUN chmod +x /scripts/setup_database.sh
