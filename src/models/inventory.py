@@ -29,10 +29,10 @@ class Inventory(Base):
 
     def to_dict(self):
         return {
-            'id': self.inventory_id,
-            'product_id': self.product_id,
-            'quantity': self.quantity,
-            'price': self.unit_price,
+            'id': self.Inventory_ID,
+            'product_id': self.Product_ID,
+            'quantity': self.Quantity,
+            'price': self.Unit_Price,
         }
     """Can probably remove this to_dict function if shopping cart 
         won't be stored in a dictionary"""

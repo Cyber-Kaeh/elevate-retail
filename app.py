@@ -1,5 +1,6 @@
 import secrets
-from flask import Flask, redirect, render_template, session, url_for
+import uuid
+from flask import Flask, request, make_response, redirect, render_template, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from werkzeug import *
@@ -12,7 +13,7 @@ from src.routes.cart_routes import cart_bp
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///elevate_retail.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc://SA:Secure1passw0rd@127.0.0.1:1433/elevate_retail?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes"
 app.config['SECRET_KEY'] = secrets.token_hex(32)
 app.config['SESSION_TYPE'] = 'sqlalchemy'
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
@@ -31,10 +32,30 @@ app.register_blueprint(single_checkout_bp)
 app.register_blueprint(cart_bp)
 
 
+def generate_anonymous_user_id():
+    return str(uuid.uuid4())
+
+
+def ensure_anonymous_user():
+    user_id = request.cookies.get('anonymous_user_id')
+    if not user_id:
+        user_id = generate_anonymous_user_id()
+        response = make_response()
+        response.set_cookie('anonymous_user_id', user_id,
+                            max_age=60*60*24*365, httponly=True, secure=False)
+        """set secure=True for production"""
+        return response
+    return None
+
+
 @app.before_request
 def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = 3600
+
+    response = ensure_anonymous_user()
+    if response:
+        return response
 
 
 @app.route('/')

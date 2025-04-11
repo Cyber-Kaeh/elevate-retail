@@ -27,6 +27,7 @@ def get_inventory_items():
 
 def get_inventory_item_by_id(item_id):
     with get_session() as sess:
-        item = sess.query(Inventory).filter(Inventory.id == item_id).first()
+        item = sess.query(Inventory).filter(
+            Inventory.Product_ID == item_id).first()
         # return item
         return item.to_dict() if item else None
