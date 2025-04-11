@@ -37,8 +37,8 @@ def get_product_items_to_display():
     with get_session() as sess:
         products = sess.query(
             Product.Product_ID.label('product_id'),
-            Product.Name.label('name'),
-            Product.Description.label('description'),
+            Product.Product_Name.label('name'),
+            Product.Product_Description.label('description'),
             Product.Image_URL.label('image_url'),
             Inventory.Unit_Price.label('price'),
         ).join(
