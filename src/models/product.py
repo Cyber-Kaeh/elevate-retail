@@ -22,3 +22,14 @@ class Product(Base):
         "PurchaseOrderItem", back_populates="ordered_product")
     inventory = relationship("Inventory", back_populates="stored_product")
     discounts = relationship("Discount", back_populates="discounted_product")
+
+    def to_dict(self):
+        return {
+            'id': self.Product_ID,
+            'name': self.Name,
+            'description': self.Description,
+            'category_id': self.Category_ID,
+            'supplier_id': self.Supplier_ID,
+            'image_url': self.Image_URL,
+            'deleted_at': self.Deleted_At,
+        }

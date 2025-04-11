@@ -33,7 +33,8 @@ app.register_blueprint(cart_bp)
 
 
 def generate_anonymous_user_id():
-    return str(uuid.uuid4())
+    # return str(uuid.uuid4())
+    return random.randint(1000, 9999)
 
 
 def ensure_anonymous_user():
@@ -41,7 +42,7 @@ def ensure_anonymous_user():
     if not user_id:
         user_id = generate_anonymous_user_id()
         response = make_response()
-        response.set_cookie('anonymous_user_id', user_id,
+        response.set_cookie('anonymous_user_id', str(user_id),
                             max_age=60*60*24*365, httponly=True, secure=False)
         """set secure=True for production"""
         return response
