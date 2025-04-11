@@ -1,5 +1,5 @@
 from flask import Blueprint, session, redirect, url_for, request, render_template
-from flask_sqlalchemy import SQLAlchemy
+from src.utils.db_utils import db
 from src.models import ShoppingCart, ShoppingCartItem, Product, Inventory
 from src.controllers.inventory_controller import get_inventory_item_by_id
 
@@ -54,7 +54,8 @@ def view_cart():
     user_id = request.cookies.get('anonymous_user_id')
     alert_message = session.pop('alert_message', None)
 
-    shopping_cart = ShoppingCart.query.filter_by(user_id=user_id).first()
+    shopping_cart = db.session.query(
+        ShoppingCart).filter_by(Customer_ID=user_id).first()
     if not shopping_cart:
         return render_template('cart.html', items=[], total_price=0)
 

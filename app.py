@@ -1,8 +1,8 @@
 import secrets
 import uuid
+import random
 from flask import Flask, request, make_response, redirect, render_template, session, url_for
-from flask_sqlalchemy import SQLAlchemy
-from flask_session import Session
+from src.utils.db_utils import db, csrf, session as flask_session
 from werkzeug import *
 from flask_wtf.csrf import CSRFProtect
 
@@ -11,7 +11,6 @@ from src.routes.inventory_routes import inventory_bp, single_checkout_bp
 from src.routes.cart_routes import cart_bp
 
 app = Flask(__name__)
-csrf = CSRFProtect(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc://SA:Secure1passw0rd@127.0.0.1:1433/elevate_retail?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes"
 app.config['SECRET_KEY'] = secrets.token_hex(32)
@@ -22,10 +21,11 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     'pool_timeout': 30,
     'pool_recycle': 280
 }
-db = SQLAlchemy(app)  # Create a single SQLAlchemy instance
 app.config['SESSION_SQLALCHEMY'] = db
 
-Session(app)
+db.init_app(app)
+csrf.init_app(app)
+flask_session.app = app
 
 app.register_blueprint(inventory_bp)
 app.register_blueprint(single_checkout_bp)
