@@ -1,18 +1,28 @@
 import secrets
 from flask import Flask, redirect, render_template, session, url_for
-from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from werkzeug import *
 from flask_wtf.csrf import CSRFProtect
+from jinja2 import ChoiceLoader, FileSystemLoader
+
+from database import db
 
 from src.models.forms import LoginForm
 from src.routes.inventory_routes import inventory_bp, single_checkout_bp
 from src.routes.cart_routes import cart_bp
 
+from src.purchasing.app.main import bp as main_bp
+from src.purchasing.app.api import bp as api_bp
+
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///elevate_retail.db'
+app.jinja_loader = ChoiceLoader({
+    FileSystemLoader('templates'),
+    FileSystemLoader('src/purchasing/app/templates')
+})
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc://SA:Secure1passw0rd@127.0.0.1:1433/elevate_retail?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes'
 app.config['SECRET_KEY'] = secrets.token_hex(32)
 app.config['SESSION_TYPE'] = 'sqlalchemy'
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
@@ -21,7 +31,7 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     'pool_timeout': 30,
     'pool_recycle': 280
 }
-db = SQLAlchemy(app)  # Create a single SQLAlchemy instance
+db.init_app(app)
 app.config['SESSION_SQLALCHEMY'] = db
 
 Session(app)
@@ -29,6 +39,9 @@ Session(app)
 app.register_blueprint(inventory_bp)
 app.register_blueprint(single_checkout_bp)
 app.register_blueprint(cart_bp)
+
+app.register_blueprint(main_bp, url_prefix='/purchasing')
+app.register_blueprint(api_bp, url_prefix='/purchasing/api')
 
 
 @app.before_request
