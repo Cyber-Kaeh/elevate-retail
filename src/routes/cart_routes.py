@@ -2,8 +2,13 @@ from flask import Blueprint, session, redirect, url_for, request, render_templat
 from src.utils.db_utils import db
 from src.models import ShoppingCart, ShoppingCartItem, Product, Inventory, forms
 from src.controllers.inventory_controller import get_inventory_item_by_id
+import random
 
 cart_bp = Blueprint('cart', __name__)
+
+
+def generate_anonymous_user_id():
+    return random.randint(100000, 999999)
 
 
 @cart_bp.route('/add_to_cart/<int:item_id>', methods=['GET'])
@@ -52,18 +57,23 @@ def clear_cart():
 @cart_bp.route('/cart', methods=['GET'])
 def view_cart():
     form = forms.LoginForm()
-    user_id = request.cookies.get('anonymous_user_id')
+    session_id = request.cookies.get('session_id')
+    anonymous_user = generate_anonymous_user_id()
     alert_message = session.pop('alert_message', None)
 
     shopping_cart = db.session.query(
-        ShoppingCart).filter_by(Customer_ID=user_id).first()
+        ShoppingCart).filter_by(Session_ID=session_id).first()
     if not shopping_cart:
-        return render_template('cart.html', items=[], total_price=0, form=form)
+        # return render_template('cart.html', items=[], total_price=0, form=form)
+        shopping_cart = ShoppingCart(
+            Cart_ID=anonymous_user, Customer_ID=anonymous_user, Session_ID=session_id)
+        db.session.add(shopping_cart)
+        db.session.commit()
 
     cart_items = db.session.query(
         ShoppingCartItem.Quantity.label('quantity'),
         Product.Product_ID.label('product_id'),
-        Product.Name.label('name'),
+        Product.Product_Name.label('name'),
         Inventory.Unit_Price.label('price')
     ).join(
         Inventory, ShoppingCartItem.Inventory_ID == Inventory.Inventory_ID
@@ -86,7 +96,7 @@ def view_cart():
         })
     # Calculate the total price
     # total_price = sum(item['price'] * item['quantity'] for item in items)
-    return render_template('cart.html', items=items, total_price=total_price, alert_message=alert_message)
+    return render_template('cart.html', items=items, total_price=total_price, alert_message=alert_message, form=form)
 
 
 @cart_bp.app_context_processor

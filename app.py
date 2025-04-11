@@ -32,17 +32,16 @@ app.register_blueprint(single_checkout_bp)
 app.register_blueprint(cart_bp)
 
 
-def generate_anonymous_user_id():
-    # return str(uuid.uuid4())
-    return random.randint(1000, 9999)
+def generate_session_id():
+    return str(uuid.uuid4())
 
 
 def ensure_anonymous_user():
-    user_id = request.cookies.get('anonymous_user_id')
-    if not user_id:
-        user_id = generate_anonymous_user_id()
+    session_id = request.cookies.get('session_id')
+    if not session_id:
+        session_id = generate_session_id()
         response = make_response()
-        response.set_cookie('anonymous_user_id', str(user_id),
+        response.set_cookie('session_id', session_id,
                             max_age=60*60*24*365, httponly=True, secure=False)
         """set secure=True for production"""
         return response

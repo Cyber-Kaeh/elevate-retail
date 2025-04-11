@@ -124,10 +124,11 @@ CREATE TABLE Inventory (
 CREATE TABLE Shopping_Cart (
     Cart_ID INT IDENTITY(1,1) PRIMARY KEY,
     Customer_ID INT NOT NULL,
+    Session_ID NVARCHAR(50) NULL,
     Created_At DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
     Updated_At DATETIME2 NULL,
-    CONSTRAINT FK_Cart_Customer FOREIGN KEY (Customer_ID)
-        REFERENCES Customer(Customer_ID)
+    -- CONSTRAINT FK_Cart_Customer FOREIGN KEY (Customer_ID)
+    --     REFERENCES Customer(Customer_ID)
 );
 
 -- Shopping_Cart_Item Table: Stores items within a shopping cart.
