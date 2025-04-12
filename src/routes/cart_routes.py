@@ -58,21 +58,79 @@ def add_to_cart(item_id):
 
 @cart_bp.route('/remove_from_cart/<int:item_id>', methods=['GET'])
 def remove_from_cart(item_id):
-    if 'cart' in session:
-        for item in session['cart']:
-            if item['id'] == item_id:
-                item['quantity'] -= 1
-                break
-    session.modified = True
+    session_id = request.cookies.get('session_id')
+    if not session_id:
+        flash('Your cart is empty!', 'info')
+        return redirect(url_for('cart.view_cart'))
+
+    try:
+        shopping_cart = db.session.query(ShoppingCart).filter_by(
+            Session_ID=session_id).first()
+
+        if not shopping_cart:
+            flash('Your cart is empty!', 'info')
+            return redirect(url_for('cart.view_cart'))
+
+        cart_item = db.session.query(
+            ShoppingCartItem
+        ).filter_by(
+            Cart_ID=shopping_cart.Cart_ID,
+            Inventory_ID=item_id
+        ).first()
+
+        if cart_item:
+            if cart_item.Quantity > 1:
+                cart_item.Quantity -= 1
+                db.session.commit()
+                flash('Item removed from cart!', 'danger')
+            else:
+                db.session.delete(cart_item)
+                db.session.commit()
+                flash('Item removed from cart!', 'danger')
+        else:
+            flash('Item not found in cart!', 'warning')
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        flash('An error occurred while removing the item from the cart.', 'danger')
+        print(f"SQLAlchemy Error: {e}")
+
     return redirect(url_for('cart.view_cart'))
 
 
 @cart_bp.route('/remove_all_of_item/<int:item_id>', methods=['GET'])
 def remove_all_of_item(item_id):
-    if 'cart' in session:
-        session['cart'] = [item for item in session['cart']
-                           if item['id'] != item_id]
-    session.modified = True
+    session_id = request.cookies.get('session_id')
+    if not session_id:
+        flash('Your cart is empty!', 'info')
+        return redirect(url_for('cart.view_cart'))
+
+    try:
+        shopping_cart = db.session.query(ShoppingCart).filter_by(
+            Session_ID=session_id).first()
+
+        if not shopping_cart:
+            flash('Your cart is empty!', 'info')
+            return redirect(url_for('cart.view_cart'))
+
+        cart_item = db.session.query(
+            ShoppingCartItem
+        ).filter_by(
+            Cart_ID=shopping_cart.Cart_ID,
+            Inventory_ID=item_id
+        ).first()
+
+        if cart_item:
+            db.session.delete(cart_item)
+            db.session.commit()
+            flash('Removed items from cart!', 'danger')
+        else:
+            flash('Item not found in cart!', 'warning')
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        flash('An error occurred while removing the item from the cart.', 'danger')
+        print(f"SQLAlchemy Error: {e}")
     return redirect(url_for('cart.view_cart'))
 
 
@@ -144,5 +202,19 @@ def view_cart():
 
 @cart_bp.app_context_processor
 def inject_cart_item_count():
-    cart_items = session.get('cart', [])
-    return {'cart_item_count': sum([item['quantity'] for item in cart_items])}
+    session_id = request.cookies.get('session_id')
+    if not session_id:
+        return {'cart_item_count': 0}
+
+    shopping_cart = db.session.query(
+        ShoppingCart).filter_by(Session_ID=session_id).first()
+
+    if shopping_cart:
+        cart_items_count = db.session.query(
+            db.func.sum(ShoppingCartItem.Quantity)
+        ).filter(
+            ShoppingCartItem.Cart_ID == shopping_cart.Cart_ID
+        ).scalar()
+        return {'cart_item_count': cart_items_count or 0}
+    else:
+        return {'cart_item_count': 0}
