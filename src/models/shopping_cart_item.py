@@ -12,7 +12,7 @@ class ShoppingCartItem(Base):
         "Inventory.Inventory_ID"), primary_key=True)
     Quantity = Column(Integer, nullable=False)
     Created_At = Column(DateTime, default=func.now(), nullable=False)
-    Updated_At = Column(DateTime, onupdate=func.utc_timestamp(), nullable=True)
+    Updated_At = Column(DateTime, onupdate=func.now(), nullable=True)
 
     cart = relationship("ShoppingCart", back_populates="cart_items")
     inventory_item_cart = relationship(

@@ -1,7 +1,8 @@
-from flask import Blueprint, session, redirect, url_for, request, render_template
+from flask import Blueprint, flash, session, redirect, url_for, request, render_template
 from src.utils.db_utils import db
 from src.models import ShoppingCart, ShoppingCartItem, Product, Inventory, forms
 from src.controllers.inventory_controller import get_inventory_item_by_id
+from sqlalchemy.exc import SQLAlchemyError
 import random
 
 cart_bp = Blueprint('cart', __name__)
@@ -13,17 +14,45 @@ def generate_anonymous_user_id():
 
 @cart_bp.route('/add_to_cart/<int:item_id>', methods=['GET'])
 def add_to_cart(item_id):
-    if 'cart' not in session:
-        session['cart'] = []
+    session_id = request.cookies.get('session_id')
 
-    for item in session['cart']:
-        if item['id'] == item_id:
-            item['quantity'] += 1
-            break
-    else:
-        session['cart'].append({'id': item_id, 'quantity': 1})
-    session.modified = True
-    print(session['cart'])
+    if not session_id:
+        flash('Your cart is empty!', 'info')
+        return redirect(url_for('cart.view_cart'))
+
+    try:
+        shopping_cart = db.session.query(ShoppingCart).filter_by(
+            Session_ID=session_id).first()
+        if not shopping_cart:
+            shopping_cart = ShoppingCart(Session_ID=session_id)
+            db.session.add(shopping_cart)
+            db.session.commit()
+
+        cart_item = db.session.query(
+            ShoppingCartItem
+        ).filter_by(
+            Cart_ID=shopping_cart.Cart_ID,
+            Inventory_ID=item_id
+        ).first()
+
+        if cart_item:
+            cart_item.Quantity += 1
+            db.session.commit()
+        else:
+            cart_item = ShoppingCartItem(
+                Cart_ID=shopping_cart.Cart_ID,
+                Inventory_ID=item_id,
+                Quantity=1
+            )
+            db.session.add(cart_item)
+        db.session.commit()
+        flash('Item added to cart!', 'success')
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        flash('An error occurred while adding the item to the cart.', 'danger')
+        print(f"SQLAlchemy Error: {e}")
+
     return redirect(request.referrer or url_for('inventory.view_inventory'))
 
 
@@ -49,9 +78,23 @@ def remove_all_of_item(item_id):
 
 @cart_bp.route('/clear_cart', methods=['GET'])
 def clear_cart():
-    session.pop('cart', None)
-    session.modified = True
-    return render_template('landing.html', items=[], total_price=0)
+    session_id = request.cookies.get('session_id')
+    if not session_id:
+        flash('Your cart is already empty!', 'info')
+        return redirect(url_for('cart.view_cart'))
+
+    shopping_cart = db.session.query(ShoppingCart).filter_by(
+        Session_ID=session_id).first()
+
+    if shopping_cart:
+        db.session.query(ShoppingCartItem).filter_by(
+            Cart_ID=shopping_cart.Cart_ID).delete()
+        db.session.commit()
+        flash('Your cart has been cleared!', 'success')
+    else:
+        flash('Your cart is already empty!', 'info')
+
+    return redirect(url_for('cart.view_cart'))
 
 
 @cart_bp.route('/cart', methods=['GET'])

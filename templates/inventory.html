@@ -16,7 +16,7 @@ content %}
             >Checkout</a
           >
           <a
-            href="/add_to_cart/{{ item.id }}"
+            href="{{ url_for('cart.add_to_cart', item_id=item.product_id) }}"
             class="btn btn-outline-secondary float-right"
             >Add to Cart</a
           >
