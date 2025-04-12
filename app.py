@@ -9,6 +9,7 @@ from flask_wtf.csrf import CSRFProtect
 from src.models.forms import LoginForm
 from src.routes.inventory_routes import inventory_bp, single_checkout_bp
 from src.routes.cart_routes import cart_bp
+from src.routes.login_routes import login_bp
 
 app = Flask(__name__)
 
@@ -30,6 +31,7 @@ flask_session.app = app
 app.register_blueprint(inventory_bp)
 app.register_blueprint(single_checkout_bp)
 app.register_blueprint(cart_bp)
+app.register_blueprint(login_bp, url_prefix='/auth')
 
 
 def generate_session_id():

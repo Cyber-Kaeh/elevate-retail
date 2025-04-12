@@ -5,7 +5,7 @@ import email_validator
 
 
 class LoginForm(FlaskForm):
-    email = EmailField('Email', validators=[DataRequired(), Email()])
+    identifier = StringField('Email or Phone', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
@@ -13,7 +13,6 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     email = EmailField('Email', validators=[DataRequired(), Email()])
-    # need address validation from shipping
-    phone = IntegerField('Phone', validators=[DataRequired()])
+    phone = StringField('Phone', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Register')
