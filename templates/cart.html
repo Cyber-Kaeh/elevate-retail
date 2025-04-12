@@ -183,8 +183,8 @@
         <form method="POST" action="/login">
           {{ form.hidden_tag() }}
           <div class="form-floating mb-3">
-            {{ form.email(class="form-control", placeholder="Email Address") }}
-            {{ form.email.label(class="form-label") }}
+            {{ form.identifier(class="form-control", placeholder="Email or Phone") }}
+            {{ form.identifier.label(class="form-label") }}
           </div>
           <div class="form-floating">
             {{ form.password(class="form-control", placeholder="Password") }} {{

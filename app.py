@@ -94,9 +94,8 @@ def guest_purchase_form():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        email = form.email.data
+        email = form.identifier.data
         password = form.password.data
-        session['alert_message'] = "Login worked! Update me with real logic please!"
         return redirect(url_for('cart.view_cart'))
     return render_template('cart.html', form=form)
 
