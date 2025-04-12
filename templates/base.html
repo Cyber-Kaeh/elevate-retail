@@ -67,15 +67,16 @@
                 </a>
               </li>
             </ul>
-            <form class="d-flex" role="search">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
+            <form
+              class="d-flex"
+              role="login"
+              method="POST"
+              action="/auth/login"
+            >
+              {{ form.hidden_tag() }} {{ form.email(class="form-control me-2",
+              placeholder="Email") }}
               <button class="btn btn-outline-success" type="submit">
-                Search
+                Login
               </button>
             </form>
           </div>
@@ -88,6 +89,33 @@
         <span class="text-muted">© 2025 Elevate Retail</span>
       </div>
     </footer>
+    <!-- Toast -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      {% for category, message in messages %}
+      <div
+        id="toast-{{ loop.index }}"
+        class="toast align-items-center text-bg-{{ category }}"
+        role="alert"
+        aria-live="polite"
+        aria-atomic="true"
+        data-bs-autohide="true"
+        data-bs-delay="5000"
+      >
+        <div class="d-flex">
+          <div class="toast-body">{{ message }}</div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

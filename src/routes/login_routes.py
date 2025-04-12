@@ -6,32 +6,26 @@ import random
 
 login_bp = Blueprint('login', __name__)
 
-def generate_session_id():
-    return str(random.randint(100000, 999999))
 
 @login_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        identifier = form.identifier.data
-        password = form.password.data
+        email = form.email.data
 
         try:
-            # Query the Customer table to validate the user
-            user = db.session.query(Customer).filter(
-                (Customer.Email == identifier) | (Customer.Phone == identifier)
-            ).first()
+            user = db.session.query(Customer).filter_by(Email=email).first()
 
-            if user and password == 'pass':  # Replace with actual password check if needed
-                session_id = request.cookies.get('session_id')
-                if not session_id:
-                    session_id = generate_session_id()
-                    response = make_response(redirect(url_for('cart.view_cart')))
-                    response.set_cookie('session_id', session_id, max_age=60*60*24*365, httponly=True, secure=False)
-                else:
-                    response = make_response(redirect(url_for('cart.view_cart')))
+            if user:
+                session_id = user.Customer_ID
 
-                session['user_id'] = user.Customer_ID
+                redirect_url = request.referrer or url_for(
+                    'inventory.view_inventory')
+
+                response = make_response(redirect(redirect_url))
+                response.set_cookie('session_id', str(
+                    session_id), max_age=60*60*24*365, httponly=True, secure=False)
+
                 flash('Login successful!', 'success')
                 return response
             else:
@@ -43,6 +37,7 @@ def login():
             print(f"Error: {e}")
 
     return render_template('login.html', form=form)
+
 
 @login_bp.route('/logout')
 def logout():

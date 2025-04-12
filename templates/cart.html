@@ -128,33 +128,6 @@
   <p>Your cart is empty.</p>
   {% endif %}
 </div>
-<!-- Toast -->
-{% with messages = get_flashed_messages(with_categories=true) %} {% if messages
-%}
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-  {% for category, message in messages %}
-  <div
-    id="toast-{{ loop.index }}"
-    class="toast align-items-center text-bg-{{ category }}"
-    role="alert"
-    aria-live="polite"
-    aria-atomic="true"
-    data-bs-autohide="true"
-    data-bs-delay="5000"
-  >
-    <div class="d-flex">
-      <div class="toast-body">{{ message }}</div>
-      <button
-        type="button"
-        class="btn-close btn-close-white me-2 m-auto"
-        data-bs-dismiss="toast"
-        aria-label="Close"
-      ></button>
-    </div>
-  </div>
-  {% endfor %}
-</div>
-{% endif %} {% endwith %}
 <!-- Modals -->
 
 <!-- Confirm Purchase Button Modal-->
@@ -183,8 +156,8 @@
         <form method="POST" action="/login">
           {{ form.hidden_tag() }}
           <div class="form-floating mb-3">
-            {{ form.identifier(class="form-control", placeholder="Email or Phone") }}
-            {{ form.identifier.label(class="form-label") }}
+            {{ form.email(class="form-control", placeholder="Email") }} {{
+            form.email.label(class="form-label") }}
           </div>
           <div class="form-floating">
             {{ form.password(class="form-control", placeholder="Password") }} {{

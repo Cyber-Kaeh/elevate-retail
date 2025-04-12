@@ -5,7 +5,7 @@ import email_validator
 
 
 class LoginForm(FlaskForm):
-    identifier = StringField('Email or Phone', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 

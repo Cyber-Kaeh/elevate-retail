@@ -50,6 +50,11 @@ def ensure_anonymous_user():
     return None
 
 
+@app.context_processor
+def inject_login_form():
+    return {'form': LoginForm()}
+
+
 @app.before_request
 def make_session_permanent():
     session.permanent = True
@@ -92,16 +97,7 @@ def guest_purchase_form():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        email = form.identifier.data
-        password = form.password.data
-        return redirect(url_for('cart.view_cart'))
-    return render_template('cart.html', form=form)
-
-
-"""Probably need to make a new user authentication blueprint but this is more for testing
-    the shopping cart UI and login modal - Anthony Allen"""
+    return render_template('login.html')
 
 
 if __name__ == '__main__':
