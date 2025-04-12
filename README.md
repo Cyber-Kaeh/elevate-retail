@@ -35,7 +35,8 @@ To get started with this project please refer to the following guides:
   
 Once you have everything installed and you want to actually see the app in a browser follow this guide:
 
-- [Running The App](./docs/starting_the_app.md)  
+- [Running The App](./docs/starting_the_app.md)
+- [Working with SQL Server](./docs/sqlserver_guide.md)
 
 # External Links
 

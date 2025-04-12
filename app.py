@@ -1,7 +1,8 @@
 import secrets
-from flask import Flask, redirect, render_template, session, url_for
-from flask_sqlalchemy import SQLAlchemy
-from flask_session import Session
+import uuid
+import random
+from flask import Flask, request, make_response, redirect, render_template, session, url_for
+from src.utils.db_utils import db, csrf, session as flask_session
 from werkzeug import *
 from flask_wtf.csrf import CSRFProtect
 
@@ -10,9 +11,8 @@ from src.routes.inventory_routes import inventory_bp, single_checkout_bp
 from src.routes.cart_routes import cart_bp
 
 app = Flask(__name__)
-csrf = CSRFProtect(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///elevate_retail.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc://SA:Secure1passw0rd@127.0.0.1:1433/elevate_retail?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes"
 app.config['SECRET_KEY'] = secrets.token_hex(32)
 app.config['SESSION_TYPE'] = 'sqlalchemy'
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
@@ -21,20 +21,41 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     'pool_timeout': 30,
     'pool_recycle': 280
 }
-db = SQLAlchemy(app)  # Create a single SQLAlchemy instance
 app.config['SESSION_SQLALCHEMY'] = db
 
-Session(app)
+db.init_app(app)
+csrf.init_app(app)
+flask_session.app = app
 
 app.register_blueprint(inventory_bp)
 app.register_blueprint(single_checkout_bp)
 app.register_blueprint(cart_bp)
 
 
+def generate_session_id():
+    return str(uuid.uuid4())
+
+
+def ensure_anonymous_user():
+    session_id = request.cookies.get('session_id')
+    if not session_id:
+        session_id = generate_session_id()
+        response = make_response()
+        response.set_cookie('session_id', session_id,
+                            max_age=60*60*24*365, httponly=True, secure=False)
+        """set secure=True for production"""
+        return response
+    return None
+
+
 @app.before_request
 def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = 3600
+
+    response = ensure_anonymous_user()
+    if response:
+        return response
 
 
 @app.route('/')
