@@ -87,11 +87,6 @@ def inventory():
     return render_template('inventory.html')
 
 
-@app.route('/purchasing')
-def purchasing():
-    return render_template('purchasing.html')
-
-
 @app.route('/about')
 def about():
     return render_template('about.html')
