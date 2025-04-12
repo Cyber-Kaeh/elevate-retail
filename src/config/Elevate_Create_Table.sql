@@ -1,3 +1,21 @@
+DROP TABLE IF EXISTS Discount;
+DROP TABLE IF EXISTS Payment;
+DROP TABLE IF EXISTS Shipping;
+DROP TABLE IF EXISTS Order_Item;
+DROP TABLE IF EXISTS [Order];
+DROP TABLE IF EXISTS Shopping_Cart_Item;
+DROP TABLE IF EXISTS Shopping_Cart;
+DROP TABLE IF EXISTS Purchase_Order_Item;
+DROP TABLE IF EXISTS Purchase_Order;
+DROP TABLE IF EXISTS Inventory;
+DROP TABLE IF EXISTS Product;
+DROP TABLE IF EXISTS Supplier;
+DROP TABLE IF EXISTS Product_Category;
+DROP TABLE IF EXISTS Customer_Address;
+DROP TABLE IF EXISTS Customer;
+DROP TABLE IF EXISTS Member;
+
+
 -- Member Table: Stores membership levels and their discount rates.
 CREATE TABLE Member (
     Membership_Level VARCHAR(50) PRIMARY KEY,
@@ -25,7 +43,7 @@ CREATE TABLE Customer_Address (
     Address_Line_1 VARCHAR(50) NOT NULL,
     Address_Line_2 VARCHAR(35) NULL,
     City VARCHAR(50) NOT NULL,
-    State VARCHAR(50) NOT NULL,
+    [State] VARCHAR(50) NOT NULL,
     Zip_Code VARCHAR(10) NOT NULL,
     Country VARCHAR(50) NOT NULL,
     Customer_ID INT NOT NULL,
@@ -39,8 +57,8 @@ CREATE TABLE Customer_Address (
 -- Product_Category Table: Stores product category information.
 CREATE TABLE Product_Category (
     Category_ID INT IDENTITY(1,1) PRIMARY KEY,
-    Name VARCHAR(100) NOT NULL,
-    Description VARCHAR(1000) NULL
+    Category_Name VARCHAR(100) NOT NULL,
+    Category_Description VARCHAR(1000) NULL
 );
 
 -- Supplier Table: Stores supplier details.
@@ -53,10 +71,10 @@ CREATE TABLE Supplier (
 );
 
 -- Product Table: Stores product information.
-CREATE TABLE Product (
+CREATE TABLE [Product] (
     Product_ID INT IDENTITY(1,1) PRIMARY KEY,
-    Name VARCHAR(100) NOT NULL,
-    Description VARCHAR(1000) NULL,
+    Product_Name VARCHAR(100) NOT NULL,
+    Product_Description VARCHAR(1000) NULL,
     Category_ID INT NOT NULL,
     Supplier_ID INT NOT NULL,
     Image_URL VARCHAR(255) NULL,
@@ -72,7 +90,7 @@ CREATE TABLE Purchase_Order (
     Purchase_Order_ID INT IDENTITY(1,1) PRIMARY KEY,
     Supplier_ID INT NOT NULL,
     Order_Date DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
-    Status VARCHAR(15) NOT NULL CHECK (Status IN ('Pending', 'Received', 'Cancelled')),
+    Purchase_Order_Status VARCHAR(15) NOT NULL CHECK (Purchase_Order_Status IN ('Pending', 'Received', 'Cancelled')),
     CONSTRAINT FK_PO_Supplier FOREIGN KEY (Supplier_ID)
         REFERENCES Supplier(Supplier_ID)
 );
@@ -106,10 +124,11 @@ CREATE TABLE Inventory (
 CREATE TABLE Shopping_Cart (
     Cart_ID INT IDENTITY(1,1) PRIMARY KEY,
     Customer_ID INT NOT NULL,
+    Session_ID NVARCHAR(50) NULL,
     Created_At DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
     Updated_At DATETIME2 NULL,
-    CONSTRAINT FK_Cart_Customer FOREIGN KEY (Customer_ID)
-        REFERENCES Customer(Customer_ID)
+    -- CONSTRAINT FK_Cart_Customer FOREIGN KEY (Customer_ID)
+    --     REFERENCES Customer(Customer_ID)
 );
 
 -- Shopping_Cart_Item Table: Stores items within a shopping cart.
@@ -156,7 +175,7 @@ CREATE TABLE Payment (
     Payment_ID INT IDENTITY(1,1) PRIMARY KEY,
     Order_ID INT NOT NULL,
     Method VARCHAR(50) NOT NULL,
-    Status VARCHAR(50) NULL CHECK (Status IN ('Pending', 'Completed', 'Failed')),
+    Payment_Status VARCHAR(50) NULL CHECK (Payment_Status IN ('Pending', 'Completed', 'Failed')),
     Created_At DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
     Updated_At DATETIME2 NULL,
     CONSTRAINT FK_Payment_Order FOREIGN KEY (Order_ID)
@@ -170,7 +189,7 @@ CREATE TABLE Shipping (
     Cost DECIMAL(8,2) NOT NULL CHECK (Cost >= 0),
     Shipped_On DATETIME2 NULL,
     Expected_By DATETIME2 NULL,
-    Status VARCHAR(15) NOT NULL CHECK (Status IN ('Pending', 'Shipped', 'Delivered', 'Returned')),
+    Ship_Status VARCHAR(15) NOT NULL CHECK (Ship_Status IN ('Pending', 'Shipped', 'Delivered', 'Returned')),
     Carrier VARCHAR(100) NOT NULL,
     Tracking_Number VARCHAR(50) NOT NULL,
     Created_At DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
@@ -190,7 +209,7 @@ CREATE TABLE Discount (
     Discount_ID INT IDENTITY(1,1) PRIMARY KEY,
     Discount_Type VARCHAR(15) NOT NULL CHECK (Discount_Type IN ('Percentage', 'Flat')),
     Amount DECIMAL(5,2) NOT NULL CHECK (Amount >= 0),
-    Start_Date DATE NOT NULL,
+    [Start_Date] DATE NOT NULL,
     End_Date DATE NOT NULL,
     Product_ID INT NULL,
     Order_ID INT NULL,

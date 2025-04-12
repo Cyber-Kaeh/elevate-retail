@@ -1,5 +1,5 @@
 -- Insert Membership Levels
-INSERT INTO Member (Membership_Level, Discount_Rate)
+INSERT INTO [Member] (Membership_Level, Discount_Rate)
 VALUES 
   ('Basic', 0.05),   
   ('Silver', 0.10),  
@@ -13,13 +13,13 @@ VALUES
   ('Luis', 'Salem', 'luis.salem@gmail.com', '919-663-6363', 'Silver');
 
 -- Insert Customer Addresses (omit Address_ID to auto-generate)
-INSERT INTO Customer_Address (Address_Line_1, Address_Line_2, City, State, Zip_Code, Country, Customer_ID)
+INSERT INTO Customer_Address (Address_Line_1, Address_Line_2, City, [State], Zip_Code, Country, Customer_ID)
 VALUES
   ('211 Silas Creek Pkwy', NULL, 'Winston Salem', 'NC', '27103', 'USA', 1),
   ('606 Coliseum Dr.', NULL, 'Winston Salem', 'NC', '27106', 'USA', 2);
 
 -- Insert Product Categories (omit Category_ID)
-INSERT INTO Product_Category (Name, Description)
+INSERT INTO Product_Category (Category_Name, Category_Description)
 VALUES 
   ('Haircare', 'Products related to haircare maintenance'), 
   ('Electronics', 'Products related to electronic devices, computers, cell-phones, and other electronic accessories');
@@ -31,13 +31,13 @@ VALUES
   ('Beats by Dre', 'John Smith', 'johnsmith@beatsbydre.com', '209-902-2200');
 
 -- Insert Products (omit Product_ID)
-INSERT INTO Product (Name, Description, Category_ID, Supplier_ID, Image_URL)
+INSERT INTO [Product] (Product_Name, Product_Description, Category_ID, Supplier_ID, Image_URL)
 VALUES
   ('Hair Spray Bottle', 'Ultra fine mist water sprayer for hairstyling and cleaning 2 pack 6.8 oz', 1, 1, NULL),
   ('Beats Powerbeats Pro 2', 'Wireless bluetooth earbuds - noise cancelling', 2, 2, NULL);
 
 -- Insert Purchase Orders (omit Purchase_Order_ID)
-INSERT INTO Purchase_Order (Supplier_ID, Order_Date, Status)
+INSERT INTO Purchase_Order (Supplier_ID, Order_Date, Purchase_Order_Status)
 VALUES
   (1, DATEADD(day, -5, GETUTCDATE()), 'Received'),
   (2, DATEADD(day, -3, GETUTCDATE()), 'Pending'),
@@ -81,13 +81,13 @@ VALUES
   (2, 2, 1, 747.00, 50.00);
 
 -- Insert Payments (omit Payment_ID)
-INSERT INTO Payment (Order_ID, Method, Status, Created_At, Updated_At)
+INSERT INTO Payment (Order_ID, Method, Payment_Status, Created_At, Updated_At)
 VALUES
   (1, 'Debit Card', 'Pending', DATEADD(day, -1, GETUTCDATE()), DATEADD(day, -1, GETUTCDATE())),
   (2, 'Credit Card', 'Completed', DATEADD(day, -1, GETUTCDATE()), DATEADD(day, -1, GETUTCDATE()));
 
 -- Insert Shipping records (omit Shipping_ID)
-INSERT INTO Shipping (Order_ID, Cost, Shipped_On, Expected_By, Status, Carrier, Tracking_Number, Updated_At, Shipping_Address_ID, Billing_Address_ID)
+INSERT INTO Shipping (Order_ID, Cost, Shipped_On, Expected_By, Ship_Status, Carrier, Tracking_Number, Updated_At, Shipping_Address_ID, Billing_Address_ID)
 VALUES
   (1, 18.00, DATEADD(day, -1, GETUTCDATE()), DATEADD(day, 2, GETUTCDATE()), 'Pending', 'USPS', 'EK41235678US', GETUTCDATE(), 1, 1), 
   (2, 18.00, GETUTCDATE(), DATEADD(day, 3, GETUTCDATE()), 'Shipped', 'USPS', 'EK56789143US', GETUTCDATE(), 2, 2);

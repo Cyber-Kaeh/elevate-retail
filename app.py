@@ -1,6 +1,8 @@
 import secrets
-from flask import Flask, redirect, render_template, session, url_for
-from flask_session import Session
+import uuid
+import random
+from flask import Flask, request, make_response, redirect, render_template, session, url_for
+from src.utils.db_utils import db, csrf, session as flask_session
 from werkzeug import *
 from flask_wtf.csrf import CSRFProtect
 from jinja2 import ChoiceLoader, FileSystemLoader
@@ -15,7 +17,6 @@ from src.purchasing.app.main import bp as main_bp
 from src.purchasing.app.api import bp as api_bp
 
 app = Flask(__name__)
-csrf = CSRFProtect(app)
 
 app.jinja_loader = ChoiceLoader({
     FileSystemLoader('templates'),
@@ -31,10 +32,11 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     'pool_timeout': 30,
     'pool_recycle': 280
 }
-db.init_app(app)
 app.config['SESSION_SQLALCHEMY'] = db
 
-Session(app)
+db.init_app(app)
+csrf.init_app(app)
+flask_session.app = app
 
 app.register_blueprint(inventory_bp)
 app.register_blueprint(single_checkout_bp)
@@ -44,10 +46,30 @@ app.register_blueprint(main_bp, url_prefix='/purchasing')
 app.register_blueprint(api_bp, url_prefix='/purchasing/api')
 
 
+def generate_session_id():
+    return str(uuid.uuid4())
+
+
+def ensure_anonymous_user():
+    session_id = request.cookies.get('session_id')
+    if not session_id:
+        session_id = generate_session_id()
+        response = make_response()
+        response.set_cookie('session_id', session_id,
+                            max_age=60*60*24*365, httponly=True, secure=False)
+        """set secure=True for production"""
+        return response
+    return None
+
+
 @app.before_request
 def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = 3600
+
+    response = ensure_anonymous_user()
+    if response:
+        return response
 
 
 @app.route('/')

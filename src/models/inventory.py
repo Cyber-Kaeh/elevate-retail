@@ -34,5 +34,3 @@ class Inventory(Base):
             'quantity': self.Quantity,
             'price': self.Unit_Price,
         }
-    """Can probably remove this to_dict function if shopping cart 
-        won't be stored in a dictionary"""
