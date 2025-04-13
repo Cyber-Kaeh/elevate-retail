@@ -93,5 +93,21 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const toastTrigger = document.getElementById("cart-add-btn");
+        const toastLiveExample = document.getElementById("liveToast");
+        const toastElements = document.querySelectorAll(".toast");
+
+        // Check if there are any toast elements
+        if (toastElements.length > 0) {
+          // Initialize and show each toast
+          toastElements.forEach((toastEl) => {
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+          });
+        }
+      });
+    </script>
   </body>
 </html>

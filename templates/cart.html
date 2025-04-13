@@ -57,7 +57,11 @@
             <!--Add 1-->
             <form action="/add_to_cart/{{ item.id }}" method="GET">
               {{ form.hidden_tag() }}
-              <button type="submit" class="btn btn-sm rounded-pill">
+              <button
+                id="cart-add-btn"
+                type="submit"
+                class="btn btn-sm rounded-pill"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -124,6 +128,33 @@
   <p>Your cart is empty.</p>
   {% endif %}
 </div>
+<!-- Toast -->
+{% with messages = get_flashed_messages(with_categories=true) %} {% if messages
+%}
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  {% for category, message in messages %}
+  <div
+    id="toast-{{ loop.index }}"
+    class="toast align-items-center text-bg-{{ category }}"
+    role="alert"
+    aria-live="polite"
+    aria-atomic="true"
+    data-bs-autohide="true"
+    data-bs-delay="5000"
+  >
+    <div class="d-flex">
+      <div class="toast-body">{{ message }}</div>
+      <button
+        type="button"
+        class="btn-close btn-close-white me-2 m-auto"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %} {% endwith %}
 <!-- Modals -->
 
 <!-- Confirm Purchase Button Modal-->

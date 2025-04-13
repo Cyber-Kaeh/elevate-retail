@@ -1,7 +1,7 @@
 import secrets
 import uuid
 import random
-from flask import Flask, request, make_response, redirect, render_template, session, url_for
+from flask import Flask, request, make_response, redirect, render_template, session, url_for, flash
 from src.utils.db_utils import db, csrf, session as flask_session
 from werkzeug import *
 from flask_wtf.csrf import CSRFProtect
@@ -54,7 +54,7 @@ def ensure_anonymous_user():
     session_id = request.cookies.get('session_id')
     if not session_id:
         session_id = generate_session_id()
-        response = make_response()
+        response = make_response(redirect(request.url))
         response.set_cookie('session_id', session_id,
                             max_age=60*60*24*365, httponly=True, secure=False)
         """set secure=True for production"""
