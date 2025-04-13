@@ -7,7 +7,7 @@ from werkzeug import *
 from flask_wtf.csrf import CSRFProtect
 from jinja2 import ChoiceLoader, FileSystemLoader
 
-from database import db
+from src.utils.db_utils import db
 
 from src.models.forms import LoginForm
 from src.routes.inventory_routes import inventory_bp, single_checkout_bp
