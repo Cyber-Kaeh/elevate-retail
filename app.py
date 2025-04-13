@@ -7,8 +7,6 @@ from werkzeug import *
 from flask_wtf.csrf import CSRFProtect
 from jinja2 import ChoiceLoader, FileSystemLoader
 
-from src.utils.db_utils import db
-
 from src.models.forms import LoginForm
 from src.routes.inventory_routes import inventory_bp, single_checkout_bp
 from src.routes.cart_routes import cart_bp
@@ -23,7 +21,7 @@ app.jinja_loader = ChoiceLoader({
     FileSystemLoader('src/purchasing/app/templates')
 })
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc://SA:Secure1passw0rd@127.0.0.1:1433/elevate_retail?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes'
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc://SA:Secure1passw0rd@127.0.0.1:1433/elevate_retail?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes"
 app.config['SECRET_KEY'] = secrets.token_hex(32)
 app.config['SESSION_TYPE'] = 'sqlalchemy'
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
