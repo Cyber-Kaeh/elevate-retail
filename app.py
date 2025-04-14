@@ -46,6 +46,10 @@ def home():
 def checkout():
     return render_template('checkout.html')
 
+# This is a test for checkout (test) Anthony, please review this code
+# the py code is in the end of checkout-text.html
+#finish here...
+
 
 @app.route('/inventory')
 def inventory():
