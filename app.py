@@ -5,13 +5,22 @@ from flask import Flask, request, make_response, redirect, render_template, sess
 from src.utils.db_utils import db, csrf, session as flask_session
 from werkzeug import *
 from flask_wtf.csrf import CSRFProtect
+from jinja2 import ChoiceLoader, FileSystemLoader
 
 from src.models.forms import LoginForm
 from src.routes.inventory_routes import inventory_bp, single_checkout_bp
 from src.routes.cart_routes import cart_bp
 from src.routes.login_routes import login_bp
 
+from src.purchasing.app.main import bp as main_bp
+from src.purchasing.app.api import bp as api_bp
+
 app = Flask(__name__)
+
+app.jinja_loader = ChoiceLoader({
+    FileSystemLoader('templates'),
+    FileSystemLoader('src/purchasing/app/templates')
+})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc://SA:Secure1passw0rd@127.0.0.1:1433/elevate_retail?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes"
 app.config['SECRET_KEY'] = secrets.token_hex(32)
@@ -32,6 +41,9 @@ app.register_blueprint(inventory_bp)
 app.register_blueprint(single_checkout_bp)
 app.register_blueprint(cart_bp)
 app.register_blueprint(login_bp, url_prefix='/auth')
+
+app.register_blueprint(main_bp, url_prefix='/purchasing')
+app.register_blueprint(api_bp, url_prefix='/purchasing/api')
 
 
 def generate_session_id():
@@ -78,11 +90,6 @@ def checkout():
 @app.route('/inventory')
 def inventory():
     return render_template('inventory.html')
-
-
-@app.route('/purchasing')
-def purchasing():
-    return render_template('purchasing.html')
 
 
 @app.route('/about')

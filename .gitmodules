@@ -1,0 +1,3 @@
+[submodule "src/purchasing"]
+	path = src/purchasing
+	url = https://github.com/nveeee/ElevateRetailPurchasing.git
