@@ -10,13 +10,13 @@ content %}
       >
         <div class="card-body">
           <h5 class="card-title">{{ item.name }}</h5>
-          <p class="card-text">Quantity: {{ item.quantity }}</p>
+          <p class="card-text">Description: {{ item.description }}</p>
           <p class="card-text">Price: ${{ item.price }}</p>
           <a href="/cart" class="btn btn-outline-success float-right"
             >Checkout</a
           >
           <a
-            href="/add_to_cart/{{ item.id }}"
+            href="{{ url_for('cart.add_to_cart', item_id=item.product_id) }}"
             class="btn btn-outline-secondary float-right"
             >Add to Cart</a
           >

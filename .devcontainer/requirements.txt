@@ -5,3 +5,4 @@ flask-sqlalchemy
 Flask-Session
 Flask-WTF
 email-validator
+pyodbc

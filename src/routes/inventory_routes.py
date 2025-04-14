@@ -7,7 +7,7 @@ the database and render the appropriate templates.
 """
 
 from flask import Blueprint, render_template
-from src.controllers.inventory_controller import get_inventory_items, get_inventory_item_by_id
+from src.controllers.inventory_controller import get_product_items_to_display, get_inventory_items, get_inventory_item_by_id
 
 inventory_bp = Blueprint('inventory', __name__)
 single_checkout_bp = Blueprint('single_checkout', __name__)
@@ -15,7 +15,7 @@ single_checkout_bp = Blueprint('single_checkout', __name__)
 
 @inventory_bp.route('/inventory', methods=['GET'])
 def view_inventory():
-    items = get_inventory_items()
+    items = get_product_items_to_display()
     return render_template('inventory.html', items=items)
 
 

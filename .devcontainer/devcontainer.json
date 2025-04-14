@@ -1,11 +1,13 @@
 {
   "name": "Python 3",
-  "image": "mcr.microsoft.com/devcontainers/python:3",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
   "postCreateCommand": "pip install -r .devcontainer/requirements.txt",
-  "postStartCommand": "git config --global --add safe.directory /workspaces/elevate-retail && git fetch --all && git pull",
+  "postStartCommand": "git config --global --add safe.directory /workspaces/elevate-retail && git fetch --all && git pull && /scripts/setup_database.sh",
   "forwardPorts": [5000],
   "customizations": {
     "vscode": {
