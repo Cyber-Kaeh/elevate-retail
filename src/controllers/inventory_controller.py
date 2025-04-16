@@ -56,11 +56,19 @@ def get_product_items_to_display():
         ]
 
 
+# def get_product_by_inv_id(item_id):
+#     with get_session() as sess:
+#         product = sess.query(Product).filter(
+#             Inventory.Inventory_ID == item_id
+#         ).join(
+#             Product, Inventory.Product_ID == Product.Product_ID
+#         ).first()
+#         return product.to_dict() if product else None
 def get_product_by_inv_id(item_id):
-    with get_session as sess:
-        product = sess.query(Product).filter(
-            Inventory.Inventory_ID == item_id
-        ).join(
+    with get_session() as sess:
+        product = sess.query(Product).select_from(Inventory).join(
             Product, Inventory.Product_ID == Product.Product_ID
+        ).filter(
+            Inventory.Inventory_ID == item_id
         ).first()
         return product.to_dict() if product else None
