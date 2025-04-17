@@ -1,3 +1,6 @@
 [submodule "src/purchasing"]
 	path = src/purchasing
 	url = https://github.com/nveeee/ElevateRetailPurchasing.git
+[submodule "src/shipping"]
+	path = src/shipping
+	url = https://github.com/stalexfruit/Shipping.git
