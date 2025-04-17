@@ -46,6 +46,7 @@ app.register_blueprint(main_bp, url_prefix='/purchasing')
 app.register_blueprint(api_bp, url_prefix='/purchasing/api')
 
 app.register_blueprint(shipping_bp, url_prefix='/shipping')
+csrf.exempt(shipping_bp)
 
 
 def generate_session_id():
