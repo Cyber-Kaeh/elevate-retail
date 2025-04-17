@@ -14,6 +14,8 @@ from src.routes.cart_routes import cart_bp
 from src.purchasing.app.main import bp as main_bp
 from src.purchasing.app.api import bp as api_bp
 
+from src.shipping.FlaskProject.shipping_routes import shipping_bp
+
 app = Flask(__name__)
 
 app.jinja_loader = ChoiceLoader({
@@ -42,6 +44,8 @@ app.register_blueprint(cart_bp)
 
 app.register_blueprint(main_bp, url_prefix='/purchasing')
 app.register_blueprint(api_bp, url_prefix='/purchasing/api')
+
+app.register_blueprint(shipping_bp, url_prefix='/shipping')
 
 
 def generate_session_id():
