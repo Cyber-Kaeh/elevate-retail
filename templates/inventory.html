@@ -45,7 +45,7 @@ content %}
     <img
       class="img-fluid"
       src="{{ url_for('static', filename='Spring Sale.jpg') }}"
-      style="width: 100%; max-width: 800px; height: auto;"
+      style="width: 100%; max-width: 800px; height: auto"
       alt="Promotional Image"
     />
   </div>
@@ -56,12 +56,13 @@ content %}
   <h2 class="text-center">Today's Top Picks</h2>
   <div class="row mt-4">
     {% for item in items %}
-    <div class="col-md-3 mb-4">
-      <div class="card">
+    <div class="col-md-3 mb-4 d-flex align-items-stretch">
+      <div class="card h-100">
         <img
           class="card-img-top"
           src="{% if item.product_id == 1 %}{{ url_for('static', filename='Hair Spray Bottle.jpg') }}{% elif item.product_id == 2 %}{{ url_for('static', filename='Beats Powerbeats Pro 2.jpg') }}{% else %}{{ url_for('static', filename='smiley.png') }}{% endif %}"
           alt="{{ item.name }} Image"
+          style="object-fit: cover; height: 400px"
         />
         <div class="card-body">
           <h5 class="card-title">{{ item.name }}</h5>
@@ -100,7 +101,7 @@ content %}
       class="img-fluid"
       src="{{ url_for('static', filename='exclusive.jpg') }}"
       alt="Promotional Image"
-      style="width: 100%; max-width: 800px; height: auto;"
+      style="width: 100%; max-width: 800px; height: auto"
     />
   </div>
 </div>
