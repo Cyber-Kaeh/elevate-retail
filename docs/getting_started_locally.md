@@ -1,6 +1,7 @@
 # Getting Started Locally
 
 :warning: This is no longer the suggested approach! :warning:  
+
 Due to the dependency on SQL Server running in a Docker container I don't recomend cloning
 locally because you will have to also have Docker set up and configure the networking to
 connect to the sqlserver container.  

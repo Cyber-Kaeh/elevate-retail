@@ -75,7 +75,7 @@ until I can address the automation issue.
 1. Close the terminal that is stuck on the spinning tab
 2. Open a new terminal
 3. IF this is a new Codespace:
-  - We will need to manualy run the setup_database script:
+  - We will need to **manualy run** the setup_database script:
   ```bash
     cd .devcontainer/
     chmod +x setup_database.sh  # make the script executable
