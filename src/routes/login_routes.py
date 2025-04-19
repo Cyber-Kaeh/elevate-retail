@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from flask_login import login_user, logout_user
 from src.models.forms import LoginForm, SignUpForm
 from src.utils.db_utils import db
@@ -16,6 +16,7 @@ def login():
             Email=form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
+            session['session_id'] = user.Customer_ID
             flash('Login successful!', 'success')
             return redirect(url_for('inventory.view_inventory'))
         else:
