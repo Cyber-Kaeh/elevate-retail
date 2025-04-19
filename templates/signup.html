@@ -1,6 +1,5 @@
-{% extends 'base.html' %}
-{% block title %}Sign Up{% endblock %}
-{% block content %}
+{% extends 'base.html' %} {% block title %}Sign Up{% endblock %} {% block
+content %}
 
 <style>
   body {
@@ -33,43 +32,46 @@
       <i class="fas fa-user-plus me-2"></i>Create Your Account
     </h4>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for
+    message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
 
     <form method="POST" novalidate>
       {{ form.hidden_tag() }}
 
       <div class="mb-3">
-        {{ form.first_name.label(class="form-label") }}
-        {{ form.first_name(class="form-control", placeholder="First Name") }}
+        {{ form.first_name.label(class="form-label") }} {{
+        form.first_name(class="form-control", placeholder="First Name") }}
       </div>
 
       <div class="mb-3">
-        {{ form.last_name.label(class="form-label") }}
-        {{ form.last_name(class="form-control", placeholder="Last Name") }}
+        {{ form.last_name.label(class="form-label") }} {{
+        form.last_name(class="form-control", placeholder="Last Name") }}
       </div>
 
       <div class="mb-3">
-        {{ form.email.label(class="form-label") }}
-        {{ form.email(class="form-control", placeholder="Enter email") }}
+        {{ form.email.label(class="form-label") }} {{
+        form.email(class="form-control", placeholder="Enter email") }}
       </div>
 
       <div class="mb-3">
-        {{ form.password.label(class="form-label") }}
-        {{ form.password(class="form-control", placeholder="Create password") }}
+        {{ form.phone.label(class="form-label") }} {{
+        form.phone(class="form-control", placeholder="Enter phone number") }}
       </div>
 
       <div class="mb-3">
-        {{ form.confirm_password.label(class="form-label") }}
-        {{ form.confirm_password(class="form-control", placeholder="Confirm password") }}
+        {{ form.password.label(class="form-label") }} {{
+        form.password(class="form-control", placeholder="Create password") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.confirm_password.label(class="form-label") }} {{
+        form.confirm_password(class="form-control", placeholder="Confirm
+        password") }}
       </div>
 
       <div class="d-grid">

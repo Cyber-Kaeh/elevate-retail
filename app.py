@@ -27,9 +27,11 @@ login_manager = LoginManager()
 login_manager.login_view = 'login.login'  # ✅ fixed blueprint endpoint name
 login_manager.init_app(app)
 
+
 @login_manager.user_loader
 def load_user(user_id):
-    return Customer.query.get(int(user_id))
+    return db.session.query(Customer).get(int(user_id))
+
 
 # Template loader (for global + sub-app templates)
 app.jinja_loader = ChoiceLoader({
@@ -63,8 +65,11 @@ app.register_blueprint(main_bp, url_prefix='/purchasing')
 app.register_blueprint(api_bp, url_prefix='/purchasing/api')
 
 # Session helper
+
+
 def generate_session_id():
     return str(uuid.uuid4())
+
 
 def ensure_anonymous_user():
     session_id = request.cookies.get('session_id')
@@ -77,11 +82,15 @@ def ensure_anonymous_user():
     return None
 
 # Inject global login form for templates
+
+
 @app.context_processor
 def inject_login_form():
     return {'form': LoginForm()}
 
 # Ensure session exists and is permanent
+
+
 @app.before_request
 def make_session_permanent():
     session.permanent = True
@@ -91,26 +100,33 @@ def make_session_permanent():
         return response
 
 # ROUTES
+
+
 @app.route('/')
 def home():
     return render_template('landing.html')
+
 
 @app.route('/checkout')
 @login_required
 def checkout():
     return render_template('checkout.html')
 
+
 @app.route('/inventory')
 def inventory():
     return render_template('inventory.html')
+
 
 @app.route('/about')
 def about():
     return render_template('about.html')
 
+
 @app.route('/guest-purchase-form')
 def guest_purchase_form():
     return render_template('guest-purchase-form.html')
+
 
 # Run App
 if __name__ == '__main__':
