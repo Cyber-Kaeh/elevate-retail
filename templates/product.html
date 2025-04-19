@@ -1,0 +1,172 @@
+<div class="container mt-5">
+  <div class="row">
+    <!-- Product Image & Zoom Section -->
+    <div class="col-md-6">
+      <div class="product-image">
+        <!-- Main Product Image with an optional click-to-enlarge capability -->
+        <img
+          id="product-main-image"
+          src="{% if product_id == 1 %}{{ url_for('static', filename='Hair Spray Bottle.jpg') }}{% elif product_id == 2 %}{{ url_for('static', filename='Beats Powerbeats Pro 2.jpg') }}{% else %}{{ url_for('static', filename='smiley.png') }}{% endif %}"
+          alt="{{ product.name }}"
+          class="img-fluid"
+          style="cursor: zoom-in"
+        />
+      </div>
+      {% if product.thumbnail_images %}
+      <div class="mt-3">
+        {% for thumb in product.thumbnail_images %}
+        <img
+          src="{% if thumb == 'thumb1' %}{{ url_for('static', filename='Hair Spray Bottle.jpg') }}{% elif thumb == 'thumb2' %}{{ url_for('static', filename='Beats Powerbeats Pro 2.jpg') }}{% else %}{{ url_for('static', filename='smiley.png') }}{% endif %}"
+          alt="Thumbnail"
+          class="img-thumbnail"
+          style="width: 80px; height: 80px; object-fit: cover; cursor: pointer"
+          onclick="document.getElementById('product-main-image').src = this.src"
+        />
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Product Details Section -->
+    <div class="col-md-6">
+      <h1>{{ product.name }}</h1>
+      <h3 class="text-muted">$ {{ product.price }}</h3>
+      <p>{{ product.description }}</p>
+      <p><strong>Available Sizes:</strong> {{ product.sizes }}</p>
+
+      <!-- Add to Cart Form -->
+      <form action="/add_to_cart/{{ product.id }}" method="post" class="mt-4">
+        <div class="form-group">
+          <label for="quantity">Quantity:</label>
+          <input
+            type="number"
+            name="quantity"
+            id="quantity"
+            value="1"
+            min="1"
+            class="form-control w-25"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Add to Cart</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reviews & Ratings Section -->
+  <div class="row mt-5">
+    <div class="col-12">
+      <h2>Customer Reviews</h2>
+      <div id="reviews">
+        {% if reviews %} {% for review in reviews %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{ review.username }}</h5>
+            <p class="card-text">
+              {% for i in range(review.rating) %}
+              <span class="fa fa-star text-warning"></span>
+              {% endfor %} {% for i in range(5 - review.rating) %}
+              <span class="fa fa-star"></span>
+              {% endfor %}
+            </p>
+            <p class="card-text">{{ review.comment }}</p>
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <p>No reviews yet. Be the first to review this product!</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Review Form -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <h3>Leave a Review</h3>
+      <form action="/product/{{ product.id }}/review" method="post">
+        <div class="form-group">
+          <label for="username">Your Name:</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Enter your name"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="rating">Rating:</label>
+          <select name="rating" id="rating" class="form-control" required>
+            <option value="5">5 - Excellent</option>
+            <option value="4">4 - Good</option>
+            <option value="3">3 - Average</option>
+            <option value="2">2 - Poor</option>
+            <option value="1">1 - Terrible</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="comment">Comment:</label>
+          <textarea
+            name="comment"
+            id="comment"
+            rows="3"
+            class="form-control"
+            placeholder="Share your feedback"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-secondary">Submit Review</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Image Zoom -->
+<div
+  class="modal fade"
+  id="imageModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="imageModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <img
+          id="modalImage"
+          src=""
+          alt="Zoomed Image"
+          class="img-fluid w-100"
+        />
+      </div>
+      <div class="modal-footer p-2">
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm"
+          data-dismiss="modal"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Optional: Include CSS for star ratings if not already loaded in your base -->
+<style>
+  .fa-star {
+    color: #ddd;
+  }
+  .fa-star.text-warning {
+    color: #ffc107;
+  }
+</style>
+
+<!-- JavaScript function to open the modal for image zoom -->
+<script>
+  function openModal(imgSrc) {
+    document.getElementById("modalImage").src = imgSrc;
+    $("#imageModal").modal("show");
+  }
+</script>

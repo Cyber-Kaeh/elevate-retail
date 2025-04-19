@@ -24,7 +24,15 @@
         data-bs-theme="dark"
       >
         <div class="container-fluid">
-          <a class="navbar-brand fs-2 px-2 pe-5" href="/">Elevate Retail</a>
+          <a class="navbar-brand fs-2 px-2 pe-5" href="/"
+            ><img
+              src="{{ url_for('static', filename='logo.jpg') }}"
+              alt="Logo"
+              width="auto"
+              height="50"
+              style="margin-right: 10px"
+            />Elevate Retail</a
+          >
           <button
             class="navbar-toggler"
             type="button"
@@ -67,36 +75,37 @@
                 </a>
               </li>
             </ul>
-            <!--<form
-              class="d-flex"
-              role="login"
-              method="POST"
-              action="/auth/login"
-            >
-              {{ form.hidden_tag() }} {{ form.email(class="form-control me-2",
-              placeholder="Email") }}
-              <button class="btn btn-outline-success" type="submit">
-                Login
-              </button>
-            </form>-->
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
               {% if current_user.is_authenticated %}
-                <li class="nav-item">
-                  <a class="nav-link fs-5 px-3" href="{{ url_for('checkout') }}">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link fs-5 px-3" href="{{ url_for('login.logout') }}">Logout</a>
-                </li>
+              <li class="nav-item">
+                <span class="nav-link fs-5 px-3"
+                  >Hi, {{ current_user.First_Name }}!</span
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link fs-5 px-3"
+                  href="{{ url_for('login.logout') }}"
+                  >Logout</a
+                >
+              </li>
               {% else %}
-                <li class="nav-item">
-                  <a class="nav-link fs-5 px-3" href="{{ url_for('login.login') }}">Login</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link fs-5 px-3" href="{{ url_for('login.signup') }}">Sign Up</a>
-                </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link fs-5 px-3"
+                  href="{{ url_for('login.login') }}"
+                  >Login</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link fs-5 px-3"
+                  href="{{ url_for('login.signup') }}"
+                  >Sign Up</a
+                >
+              </li>
               {% endif %}
             </ul>
-            
           </div>
         </div>
       </nav>

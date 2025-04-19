@@ -1,20 +1,64 @@
 {% extends "base.html" %} {% block title %}Inventory{% endblock %} {% block
 content %}
-<div class="container mt-5">
-  <div class="row">
+<!-- Search Bar Section -->
+<div class="container py-4">
+  <div class="input-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="What can we help you find today?"
+      aria-label="Search"
+      aria-describedby="search-button"
+    />
+    <div class="input-group-append">
+      <button class="btn btn-secondary" id="search-button" type="button">
+        Search
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Promotional Banner Section -->
+<div class="container-fluid py-5" style="background-color: #c2d6d6">
+  <div class="jumbotron text-center">
+    <h2>Spring Sale is Here!</h2>
+    <p class="lead">Save up to 50% on select items. Limited time only!</p>
+    <img
+      class="img-fluid"
+      src="{{ url_for('static', filename='Spring Sale.jpg') }}"
+      style="width: 100%; max-width: 800px; height: auto"
+      alt="Promotional Image"
+    />
+  </div>
+</div>
+
+<!-- Featured Products Section -->
+<div class="container py-5">
+  <h2 class="text-center">Today's Top Picks</h2>
+  <div class="row mt-4">
     {% for item in items %}
-    <div class="col-md-4">
-      <div
-        class="card mb-4 text-dark rounded-3 shadow"
-        style="background-color: #c2d6d6"
-      >
+    <div class="col-md-3 mb-4 d-flex align-items-stretch">
+      <div class="card h-100">
+        <img
+          class="card-img-top"
+          src="{% if item.product_id == 1 %}{{ url_for('static', filename='Hair Spray Bottle.jpg') }}{% elif item.product_id == 2 %}{{ url_for('static', filename='Beats Powerbeats Pro 2.jpg') }}{% else %}{{ url_for('static', filename='smiley.png') }}{% endif %}"
+          alt="{{ item.name }} Image"
+          style="object-fit: cover; height: 400px"
+        />
         <div class="card-body">
           <h5 class="card-title">{{ item.name }}</h5>
-          <p class="card-text">Description: {{ item.description }}</p>
           <p class="card-text">Price: ${{ item.price }}</p>
-          <a href="/cart" class="btn btn-outline-success float-right"
-            >Checkout</a
+          <!-- Updated View Details Link -->
+          <button
+            type="button"
+            class="btn btn-outline-info"
+            data-bs-toggle="modal"
+            data-bs-target="#productDetailsModal"
+            data-product-id="{{ item.product_id }}"
           >
+            View Details
+          </button>
+          <!-- Add to Cart Button -->
           <a
             href="{{ url_for('cart.add_to_cart', item_id=item.product_id) }}"
             class="btn btn-outline-secondary float-right"
@@ -26,4 +70,87 @@ content %}
     {% endfor %}
   </div>
 </div>
+
+<!-- Promotional Offers Section -->
+<div class="container py-5">
+  <h2 class="text-center">Exclusive Offers</h2>
+  <div class="jumbotron text-center" style="background-color: #c2d6d6">
+    <p class="lead">
+      Don't miss these deals! Check back for the best promotions.
+    </p>
+    <img
+      class="img-fluid"
+      src="{{ url_for('static', filename='exclusive.jpg') }}"
+      alt="Promotional Image"
+      style="width: 100%; max-width: 800px; height: auto"
+    />
+  </div>
+</div>
+
+<!-- Footer Section -->
+<footer class="py-4" style="background-color: #c2d6d6">
+  <div class="container text-center">
+    <p class="mb-0">&copy; 2025 Elevate Retail. All rights reserved.</p>
+    <small
+      ><a class="text-dark" href="/privacy-policy">Privacy Policy</a> |
+      <a class="text-dark" href="/terms">Terms of Service</a></small
+    >
+  </div>
+</footer>
+<!--Product Details Modal-->
+<div
+  class="modal fade"
+  id="productDetailsModal"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="productDetailsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productDetailsModalLabel">
+          Product Details
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" id="productDetailsContent">
+        <!-- Content will be injected here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--AJAX logic to inject page into modal-->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Attach event listeners to all "View Details" buttons
+    document
+      .querySelectorAll('[data-bs-target="#productDetailsModal"]')
+      .forEach(function (button) {
+        button.addEventListener("click", function () {
+          var productID = this.getAttribute("data-product-id"); // Get the product ID
+          if (productID) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/product/" + productID, true); // Fetch product details
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById("productDetailsContent").innerHTML =
+                  xhr.responseText;
+              } else if (xhr.readyState === 4) {
+                document.getElementById("productDetailsContent").innerHTML =
+                  "Error loading product details.";
+              }
+            };
+            xhr.send();
+          }
+        });
+      });
+  });
+</script>
 {% endblock %}
