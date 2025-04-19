@@ -17,6 +17,8 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user)
             session['session_id'] = user.Customer_ID
+            print(
+                f"User {user.First_Name} logged in with session ID: {session['session_id']}")
             flash('Login successful!', 'success')
             return redirect(url_for('inventory.view_inventory'))
         else:
@@ -27,8 +29,12 @@ def login():
 @login_bp.route('/logout')
 def logout():
     logout_user()
+    session.clear()
+    response = redirect(url_for('login.login'))
+    response.delete_cookie('session')
+    response.delete_cookie('session_id')
     flash('You have been logged out.', 'info')
-    return redirect(url_for('login.login'))
+    return response
 
 
 @login_bp.route('/signup', methods=['GET', 'POST'])
