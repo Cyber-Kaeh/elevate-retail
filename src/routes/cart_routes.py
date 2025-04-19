@@ -1,4 +1,5 @@
 from flask import Blueprint, flash, session, redirect, url_for, request, render_template
+from flask_login import current_user
 from src.utils.db_utils import db
 from src.models import ShoppingCart, ShoppingCartItem, Product, Inventory, forms
 from src.controllers.inventory_controller import get_inventory_item_by_id
@@ -16,15 +17,27 @@ def generate_anonymous_user_id():
 def add_to_cart(item_id):
     session_id = request.cookies.get('session_id')
 
+    if current_user.is_authenticated:
+        customer_id = current_user.Customer_ID
+    else:
+        customer_id = generate_anonymous_user_id()
+
     if not session_id:
         flash('Your cart is empty!', 'info')
         return redirect(url_for('cart.view_cart'))
 
     try:
-        shopping_cart = db.session.query(ShoppingCart).filter_by(
-            Session_ID=session_id).first()
+        if current_user.is_authenticated:
+            shopping_cart = db.session.query(ShoppingCart).filter_by(
+                Customer_ID=customer_id).first()
+        else:
+            shopping_cart = db.session.query(ShoppingCart).filter_by(
+                Session_ID=session_id).first()
+
         if not shopping_cart:
-            shopping_cart = ShoppingCart(Session_ID=session_id)
+            shopping_cart = ShoppingCart(
+                Customer_ID=current_user.id if current_user.is_authenticated else customer_id,
+                Session_ID=session_id)
             db.session.add(shopping_cart)
             db.session.commit()
 
@@ -59,13 +72,23 @@ def add_to_cart(item_id):
 @cart_bp.route('/remove_from_cart/<int:item_id>', methods=['GET'])
 def remove_from_cart(item_id):
     session_id = request.cookies.get('session_id')
-    if not session_id:
+
+    if current_user.is_authenticated:
+        customer_id = current_user.Customer_ID
+    else:
+        customer_id = generate_anonymous_user_id()
+
+    if not session_id and not current_user.is_authenticated:
         flash('Your cart is empty!', 'info')
         return redirect(url_for('cart.view_cart'))
 
     try:
-        shopping_cart = db.session.query(ShoppingCart).filter_by(
-            Session_ID=session_id).first()
+        if current_user.is_authenticated:
+            shopping_cart = db.session.query(ShoppingCart).filter_by(
+                Customer_ID=customer_id).first()
+        else:
+            shopping_cart = db.session.query(ShoppingCart).filter_by(
+                Session_ID=session_id).first()
 
         if not shopping_cart:
             flash('Your cart is empty!', 'info')
@@ -162,12 +185,20 @@ def view_cart():
     anonymous_user = generate_anonymous_user_id()
     alert_message = session.pop('alert_message', None)
 
-    shopping_cart = db.session.query(
-        ShoppingCart).filter_by(Session_ID=session_id).first()
+    if current_user.is_authenticated:
+        customer_id = current_user.Customer_ID
+        shopping_cart = db.session.query(
+            ShoppingCart).filter_by(Customer_ID=customer_id).first()
+    else:
+        shopping_cart = db.session.query(
+            ShoppingCart).filter_by(Session_ID=session_id).first()
+
     if not shopping_cart:
-        # return render_template('cart.html', items=[], total_price=0, form=form)
+        anonymous_user = generate_anonymous_user_id()
         shopping_cart = ShoppingCart(
-            Cart_ID=anonymous_user, Customer_ID=anonymous_user, Session_ID=session_id)
+            Cart_ID=anonymous_user,
+            Customer_ID=current_user.id if current_user.is_authenticated else anonymous_user,
+            Session_ID=session_id)
         db.session.add(shopping_cart)
         db.session.commit()
 
@@ -196,18 +227,20 @@ def view_cart():
             'price': cart_item.price
         })
     # Calculate the total price
-    # total_price = sum(item['price'] * item['quantity'] for item in items)
     return render_template('cart.html', items=items, total_price=total_price, alert_message=alert_message, form=form)
 
 
 @cart_bp.app_context_processor
 def inject_cart_item_count():
-    session_id = request.cookies.get('session_id')
-    if not session_id:
-        return {'cart_item_count': 0}
-
-    shopping_cart = db.session.query(
-        ShoppingCart).filter_by(Session_ID=session_id).first()
+    if current_user.is_authenticated:
+        shopping_cart = db.session.query(
+            ShoppingCart).filter_by(Customer_ID=current_user.Customer_ID).first()
+    else:
+        session_id = request.cookies.get('session_id')
+        if not session_id:
+            return {'cart_item_count': 0}
+        shopping_cart = db.session.query(
+            ShoppingCart).filter_by(Session_ID=session_id).first()
 
     if shopping_cart:
         cart_items_count = db.session.query(

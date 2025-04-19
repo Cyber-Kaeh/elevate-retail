@@ -8,6 +8,7 @@ flask-bootstrap
 Flask-SQLAlchemy==3.1.1
 Flask-Session
 Flask-WTF
+flask_login==0.6.3
 greenlet==3.1.1
 iniconfig==2.1.0
 itsdangerous==2.2.0

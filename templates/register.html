@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-5">
+  <h2>Create New Customer</h2>
+  <form method="POST" action="/customers/create">
+    {{ form.hidden_tag() }}
+
+    <!-- First Name -->
+    <div class="mb-3">
+      <label for="first_name" class="form-label">First Name</label>
+      {{ form.first_name(class="form-control", id="first_name",
+      placeholder="Enter first name") }}
+    </div>
+
+    <!-- Last Name -->
+    <div class="mb-3">
+      <label for="last_name" class="form-label">Last Name</label>
+      {{ form.last_name(class="form-control", id="last_name", placeholder="Enter
+      last name") }}
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      {{ form.email(class="form-control", id="email", placeholder="Enter email
+      address") }}
+    </div>
+
+    <!-- Phone -->
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone</label>
+      {{ form.phone(class="form-control", id="phone", placeholder="Enter phone
+      number") }}
+    </div>
+
+    <!-- Membership Level -->
+    <div class="mb-3">
+      <label for="membership_level" class="form-label">Membership Level</label>
+      {{ form.membership_level(class="form-control", id="membership_level",
+      placeholder="Enter membership level") }}
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Create Customer</button>
+  </form>
+</div>
+{% endblock %}

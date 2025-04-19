@@ -7,10 +7,10 @@ VALUES
   ('Platinum', 0.20);
 
 -- Insert Customers (let the identity column auto-generate Customer_ID)
-INSERT INTO Customer (First_Name, Last_Name, Email, Phone, Membership_Level)
+INSERT INTO Customer (First_Name, Last_Name, Email, PasswordHash, Phone, Membership_Level)
 VALUES
-  ('Paula', 'Durham', 'paula_durham@hotmail.com', '336-636-3366', 'Basic'),
-  ('Luis', 'Salem', 'luis.salem@gmail.com', '919-663-6363', 'Silver');
+  ('Paula', 'Durham', 'paula_durham@hotmail.com', 'password1', '336-636-3366', 'Basic'),
+  ('Luis', 'Salem', 'luis.salem@gmail.com', 'password2', '919-663-6363', 'Silver');
 
 -- Insert Customer Addresses (omit Address_ID to auto-generate)
 INSERT INTO Customer_Address (Address_Line_1, Address_Line_2, City, [State], Zip_Code, Country, Customer_ID)
