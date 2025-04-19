@@ -72,13 +72,23 @@ def add_to_cart(item_id):
 @cart_bp.route('/remove_from_cart/<int:item_id>', methods=['GET'])
 def remove_from_cart(item_id):
     session_id = request.cookies.get('session_id')
-    if not session_id:
+
+    if current_user.is_authenticated:
+        customer_id = current_user.Customer_ID
+    else:
+        customer_id = generate_anonymous_user_id()
+
+    if not session_id and not current_user.is_authenticated:
         flash('Your cart is empty!', 'info')
         return redirect(url_for('cart.view_cart'))
 
     try:
-        shopping_cart = db.session.query(ShoppingCart).filter_by(
-            Session_ID=session_id).first()
+        if current_user.is_authenticated:
+            shopping_cart = db.session.query(ShoppingCart).filter_by(
+                Customer_ID=customer_id).first()
+        else:
+            shopping_cart = db.session.query(ShoppingCart).filter_by(
+                Session_ID=session_id).first()
 
         if not shopping_cart:
             flash('Your cart is empty!', 'info')
@@ -217,18 +227,20 @@ def view_cart():
             'price': cart_item.price
         })
     # Calculate the total price
-    # total_price = sum(item['price'] * item['quantity'] for item in items)
     return render_template('cart.html', items=items, total_price=total_price, alert_message=alert_message, form=form)
 
 
 @cart_bp.app_context_processor
 def inject_cart_item_count():
-    session_id = request.cookies.get('session_id')
-    if not session_id:
-        return {'cart_item_count': 0}
-
-    shopping_cart = db.session.query(
-        ShoppingCart).filter_by(Session_ID=session_id).first()
+    if current_user.is_authenticated:
+        shopping_cart = db.session.query(
+            ShoppingCart).filter_by(Customer_ID=current_user.Customer_ID).first()
+    else:
+        session_id = request.cookies.get('session_id')
+        if not session_id:
+            return {'cart_item_count': 0}
+        shopping_cart = db.session.query(
+            ShoppingCart).filter_by(Session_ID=session_id).first()
 
     if shopping_cart:
         cart_items_count = db.session.query(
