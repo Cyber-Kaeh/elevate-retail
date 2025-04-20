@@ -44,11 +44,62 @@ vscode ➜ /workspaces/ft_capstone/elevate-retail (main) $
 
 ## Next Steps
 
+*Submodules* have been initialized in this repository, thanks to the dedicated efforts
+of Dallas (GitHub: nveeee).  
+
+To be sure the module is intialized and new dependencies are updated the following
+two commands must be run:
+
+```bash
+git submodule update --init --recursive
+pip install -r requirements.txt
+```
+
 The .devcontainer file *should* also perform a `git pull` to ensure you are up to date with the current repository. If you don't see all the same files from the repository on the left or if you cannot start the Flask app, then it most likely did not automatically pull.  
 
 That is ok though, because it is best practice to always make sure you are up to date every time you first sit down to code. I have outlined a brief Git crash course with the commands you should run the first time you start this project, along with every time you start a new coding session.  
 
 Check out the crash course first, then head over to the instructions on how to start the project's web app.  
+
+## Troubleshooting
+
+**If you get stuck while the Codespaces is loading:**
+- First be patient, it is a slow process. It can take up to 10 minutes.
+- Second, it could be a configuration issue in my devcontainer.json
+  - I'm looking into fixing this!
+
+If you don't see "Would you like to install SQL Server 2019?" with a prompt to answer
+yes/no, then something went wrong. Follow these steps as a temporary work around
+until I can address the automation issue.
+
+1. Close the terminal that is stuck on the spinning tab
+2. Open a new terminal
+3. IF this is a new Codespace:
+  - We will need to **manualy run** the setup_database script:
+  ```bash
+    cd .devcontainer/
+    chmod +x setup_database.sh  # make the script executable
+    ./setup_database.sh  # run the script
+  ```
+  - You should now be prompted asking if you want to install SQL Server, select y
+  - Important post install!
+  `cd ..`
+  - This puts you back in the root of the directory. Flask command will *not* work if
+  you are still in the .devcontainer folder!
+
+  *If this is an existing Codespace that had SQL Server working before:*
+  ```bash
+    docker start sqlserver  # Start it back up
+    docker ps  # Check that the instance is running
+  ```
+
+**If you are having module errors or import errors**  
+
+The submodules might not be loaded properly, try this command:
+```bash
+git submodule update --init --recursive
+```
+  
 
 ## <u>Navigation</u>
 - [Home](../README.md)

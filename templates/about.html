@@ -1,12 +1,146 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}About{% endblock %} {% block content
+%}
+<style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9fafb;
+      color: #212529;
+    }
 
-{% block title %}About{% endblock %}
+    .hero-section {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                  url('../static/hero-mountain2.jpg') center/cover no-repeat;
+      color: white;
+      padding: 6rem 2rem;
+      text-align: center;
+    }
 
-{% block content %}
-<div class="container mt-5">
-    <h1>About Us</h1>
-    <p>A place for all of our beautiful, smiling faces!</p>
-    <img src="{{ url_for('static', filename='smiley.png') }}" alt="Smiley Face" class="img-fluid mt-4">
-</div>
+    .hero-section h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+    }
+
+    .hero-section p {
+      font-size: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .values-section {
+      padding: 4rem 2rem;
+      background-color: white;
+    }
+
+    .values-section h2 {
+      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+
+    .value-box {
+      background: #f1f3f5;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .value-box:hover {
+      background-color: #e9ecef;
+      transform: translateY(-5px);
+    }
+
+    .team-section {
+      background-color: #f8f9fa;
+      padding: 4rem 2rem;
+    }
+
+    .team-section h2 {
+      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+
+    .team-card {
+      border: none;
+      text-align: center;
+      box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
+    }
+
+    .team-card img {
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+    }
+
+    .team-card h5 {
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    footer {
+      background-color: #212529;
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    footer a {
+      color: #ffc107;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h1>About Elevate Retail</h1>
+      <p>We deliver fast, reliable, and secure retail shopping right to your fingertips.</p>
+    </div>
+  </section>
+
+  <!-- Our Core Values -->
+  <section class="values-section text-center">
+    <div class="container">
+      <h2>Our Core Values</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="value-box">
+            <h4>Innovation</h4>
+            <p>We thrive on developing robust, secure, and scalable online retail platforms.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="value-box">
+            <h4>Customer First</h4>
+            <p>Every feature is designed to simplify your day-to-day and maximize your profits.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="value-box">
+            <h4>Reliability</h4>
+            <p>Our POS solutions are built to perform, scale, and support 24/7 business needs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container-lg rounded-3 shadow-sm py-4 px-5 my-5">
+        <h2 class="text-center">Background</h2>
+        <p>
+            Elevate Retail, a budding online retail company aims to establish a dynamic, user-friendly e-
+commerce platform. The company requires an integrated IT infrastructure that supports e-commerce activities,
+data analytics, secure transactions, and customer engagement.
+        </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Elevate Retail. All rights reserved.</p>
+      <p><a href="/">Back to Home</a></p>
+    </div>
+  </footer>
+
 
 {% endblock %}

@@ -1,5 +1,11 @@
 # Getting Started Locally
 
+:warning: This is no longer the suggested approach! :warning:  
+
+Due to the dependency on SQL Server running in a Docker container I don't recomend cloning
+locally because you will have to also have Docker set up and configure the networking to
+connect to the sqlserver container.  
+
 Follow these steps to set up and run the project on your local machine:
 
 ## 1. Clone the Repository
@@ -7,7 +13,7 @@ Follow these steps to set up and run the project on your local machine:
 Open a terminal and run the following command to clone the repository:
 
 ```bash
-git clone https://github.com/Cyber-Kaeh/elevate-retail.git
+git clone --recurse-submodules -j8 https://github.com/Cyber-Kaeh/elevate-retail.git
 cd elevate-retail
 ```
 

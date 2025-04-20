@@ -24,7 +24,15 @@
         data-bs-theme="dark"
       >
         <div class="container-fluid">
-          <a class="navbar-brand fs-2 px-2 pe-5" href="/">Elevate Retail</a>
+          <a class="navbar-brand fs-2 px-2 pe-5" href="/"
+            ><img
+              src="{{ url_for('static', filename='logo.jpg') }}"
+              alt="Logo"
+              width="auto"
+              height="50"
+              style="margin-right: 10px"
+            />Elevate Retail</a
+          >
           <button
             class="navbar-toggler"
             type="button"
@@ -67,17 +75,37 @@
                 </a>
               </li>
             </ul>
-            <form class="d-flex" role="search">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              {% if current_user.is_authenticated %}
+              <li class="nav-item">
+                <span class="nav-link fs-5 px-3"
+                  >Hi, {{ current_user.First_Name }}!</span
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link fs-5 px-3"
+                  href="{{ url_for('login.logout') }}"
+                  >Logout</a
+                >
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a
+                  class="nav-link fs-5 px-3"
+                  href="{{ url_for('login.login') }}"
+                  >Login</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link fs-5 px-3"
+                  href="{{ url_for('login.signup') }}"
+                  >Sign Up</a
+                >
+              </li>
+              {% endif %}
+            </ul>
           </div>
         </div>
       </nav>
@@ -88,6 +116,33 @@
         <span class="text-muted">© 2025 Elevate Retail</span>
       </div>
     </footer>
+    <!-- Toast -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      {% for category, message in messages %}
+      <div
+        id="toast-{{ loop.index }}"
+        class="toast align-items-center text-bg-{{ category }}"
+        role="alert"
+        aria-live="polite"
+        aria-atomic="true"
+        data-bs-autohide="true"
+        data-bs-delay="5000"
+      >
+        <div class="d-flex">
+          <div class="toast-body">{{ message }}</div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

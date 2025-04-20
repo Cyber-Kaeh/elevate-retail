@@ -50,7 +50,7 @@ In VS Code, install these extensions:
 1. Clone the projects repository
     - Open a command line. Windows: Command Prompt, PowerShell. Mac/Linux: Terminal. Terminal in VS Code.
     * Make sure you are in the directory where you want the project files!
-    - `git clone https://github.com/Cyber-Kaeh/elevate-retail`
+    - `git clone --recurse-submodules -j8 https://github.com/Cyber-Kaeh/elevate-retail`
     - `cd elevate-retail`
 2. Open the project in VS Code
     - `code .`

@@ -28,6 +28,7 @@ CREATE TABLE Customer (
     First_Name VARCHAR(50) NOT NULL,
     Last_Name VARCHAR(50) NOT NULL,
     Email VARCHAR(254) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NULL,
     Phone VARCHAR(20),
     Membership_Level VARCHAR(50) NOT NULL,
     Created_At DATETIME2 NOT NULL DEFAULT GETUTCDATE(),

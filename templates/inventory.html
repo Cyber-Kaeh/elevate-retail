@@ -1,24 +1,5 @@
 {% extends "base.html" %} {% block title %}Inventory{% endblock %} {% block
 content %}
-<!-- Header Section -->
-<div class="container-fluid py-3" style="background-color: #c2d6d6">
-  <div class="row align-items-center">
-    <div class="col-md-6 d-flex align-items-center">
-      <!-- Logo Image -->
-      <img
-        src="{{ url_for('static', filename='logo.jpg') }}"
-        alt="Logo"
-        style="height: 40px; width: auto; margin-right: 10px"
-      />
-      <!-- Header Text -->
-      <h1 class="text-dark mb-0">Elevate Retail</h1>
-    </div>
-    <div class="col-md-6 d-flex justify-content-end align-items-center">
-      <a href="/login" class="btn btn-outline-primary">Login</a>
-    </div>
-  </div>
-</div>
-
 <!-- Search Bar Section -->
 <div class="container py-4">
   <div class="input-group mb-3">
@@ -44,7 +25,8 @@ content %}
     <p class="lead">Save up to 50% on select items. Limited time only!</p>
     <img
       class="img-fluid"
-      src="{{ url_for('static', filename='smiley.png') }}"
+      src="{{ url_for('static', filename='Spring Sale.jpg') }}"
+      style="width: 100%; max-width: 800px; height: auto"
       alt="Promotional Image"
     />
   </div>
@@ -55,12 +37,13 @@ content %}
   <h2 class="text-center">Today's Top Picks</h2>
   <div class="row mt-4">
     {% for item in items %}
-    <div class="col-md-3 mb-4">
-      <div class="card">
+    <div class="col-md-3 mb-4 d-flex align-items-stretch">
+      <div class="card h-100">
         <img
           class="card-img-top"
-          src="{{ url_for('static', filename='smiley.png') }}"
+          src="{% if item.product_id == 1 %}{{ url_for('static', filename='Hair Spray Bottle.jpg') }}{% elif item.product_id == 2 %}{{ url_for('static', filename='Beats Powerbeats Pro 2.jpg') }}{% else %}{{ url_for('static', filename='smiley.png') }}{% endif %}"
           alt="{{ item.name }} Image"
+          style="object-fit: cover; height: 400px"
         />
         <div class="card-body">
           <h5 class="card-title">{{ item.name }}</h5>
@@ -97,8 +80,9 @@ content %}
     </p>
     <img
       class="img-fluid"
-      src="{{ url_for('static', filename='smiley.png') }}"
+      src="{{ url_for('static', filename='exclusive.jpg') }}"
       alt="Promotional Image"
+      style="width: 100%; max-width: 800px; height: auto"
     />
   </div>
 </div>

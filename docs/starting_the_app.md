@@ -15,6 +15,25 @@ WARNING: This is a development server. Do not use it in a production deployment.
  * Running on http://127.0.0.1:5000
 ```
 
+## Starting SQL Server in Docker
+In the terminal check if the sqlserver container is running:
+```bash
+docker ps
+```
+The results should look similar to this:
+```
+CONTAINER ID   IMAGE      COMMAND      CREATED      STATUS         PORTS        NAMES
+798a2d0124d2   mcr.microsoft.com/mssql/server:2019-latest   "/opt/mssql/bin/perm…"   8 days ago   Up 2 seconds   0.0.0.0:1433->1433/tcp   sqlserver
+```
+If you don't see anything after the headings; check if the container has been pulled then start it:
+```bash
+docker ps -a # See all containers
+docker start sqlserver  # Start the contianer
+```
+
+*If you don't see anything in `docker ps -a` then please refer to running the `setup_database.sh`*
+script manually, [here](./getting_started_codespaces.md#troubleshooting)  
+
 ## Viewing in a Web Browser
 Once the app is started and you get the above message you can navigate to that address in a web browser to see a live view. In Codespaces or Dev Containers you will also get a pop up from VS Code asking if you want to view the webpage, you can click yes.
 
