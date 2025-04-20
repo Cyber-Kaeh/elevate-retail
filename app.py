@@ -10,6 +10,7 @@ from jinja2 import ChoiceLoader, FileSystemLoader
 from src.models.forms import LoginForm
 from src.routes.inventory_routes import inventory_bp, single_checkout_bp
 from src.routes.cart_routes import cart_bp
+from src.routes.product_routes import product_bp
 
 from src.purchasing.app.main import bp as main_bp
 from src.purchasing.app.api import bp as api_bp
@@ -41,6 +42,7 @@ flask_session.app = app
 app.register_blueprint(inventory_bp)
 app.register_blueprint(single_checkout_bp)
 app.register_blueprint(cart_bp)
+app.register_blueprint(product_bp)
 
 app.register_blueprint(main_bp, url_prefix='/purchasing')
 app.register_blueprint(api_bp, url_prefix='/purchasing/api')
@@ -98,6 +100,11 @@ def about():
 @app.route('/guest-purchase-form')
 def guest_purchase_form():
     return render_template('guest-purchase-form.html')
+
+
+# @app.route('/product<int:item_id>')
+# def product():
+#     return render_template('product.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
