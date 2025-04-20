@@ -68,14 +68,11 @@ app.register_blueprint(login_bp, url_prefix='/auth')
 app.register_blueprint(main_bp, url_prefix='/purchasing')
 app.register_blueprint(api_bp, url_prefix='/purchasing/api')
 
-<<<<<<< HEAD
 app.register_blueprint(shipping_bp, url_prefix='/shipping')
 csrf.exempt(shipping_bp)
-=======
+
+
 # Session helper
->>>>>>> main
-
-
 def generate_session_id():
     return str(uuid.uuid4())
 
