@@ -2,7 +2,7 @@ from flask import Blueprint, flash, session, redirect, url_for, request, render_
 from flask_login import current_user
 from src.utils.db_utils import db
 from src.models import ShoppingCart, ShoppingCartItem, Product, Inventory, forms
-from src.controllers.inventory_controller import get_inventory_item_by_id
+from src.controllers.shop_controller import get_shop_item_by_id
 from sqlalchemy.exc import SQLAlchemyError
 import random
 
@@ -66,7 +66,7 @@ def add_to_cart(item_id):
         flash('An error occurred while adding the item to the cart.', 'danger')
         print(f"SQLAlchemy Error: {e}")
 
-    return redirect(request.referrer or url_for('inventory.view_inventory'))
+    return redirect(request.referrer or url_for('shop.view_shop'))
 
 
 @cart_bp.route('/remove_from_cart/<int:item_id>', methods=['GET'])

@@ -20,7 +20,7 @@ def login():
             print(
                 f"User {user.First_Name} logged in with session ID: {session['session_id']}")
             flash('Login successful!', 'success')
-            return redirect(url_for('inventory.view_inventory'))
+            return redirect(url_for('shop.view_shop'))
         else:
             flash('Invalid email or password.', 'danger')
     return render_template('login.html', form=form)

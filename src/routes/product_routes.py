@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from src.controllers.inventory_controller import get_product_by_inv_id
+from src.controllers.shop_controller import get_product_by_inv_id
 
 # Create a new blueprint for product-related routes
 product_bp = Blueprint('product', __name__)

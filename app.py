@@ -1,3 +1,4 @@
+import importlib
 import secrets
 import uuid
 import random
@@ -8,15 +9,15 @@ from flask_wtf.csrf import CSRFProtect
 from jinja2 import ChoiceLoader, FileSystemLoader
 
 from src.models.forms import LoginForm
-from src.routes.inventory_routes import inventory_bp, single_checkout_bp
+from src.routes.shop_routes import shop_bp, single_checkout_bp
 from src.routes.cart_routes import cart_bp
 from src.routes.login_routes import login_bp
 from src.routes.product_routes import product_bp
 
 from src.purchasing.app.main import bp as main_bp
 from src.purchasing.app.api import bp as api_bp
-
 from src.shipping.FlaskProject.shipping_routes import shipping_bp
+inventory_bp = importlib.import_module('src.inventory.inventory app.routes').inventory_bp
 
 # Flask-Login
 from flask_login import LoginManager, login_required, current_user
@@ -27,7 +28,7 @@ app = Flask(__name__)
 
 # Login Manager Setup
 login_manager = LoginManager()
-login_manager.login_view = 'login.login'  # ✅ fixed blueprint endpoint name
+login_manager.login_view = 'login.login'
 login_manager.init_app(app)
 
 
@@ -39,7 +40,8 @@ def load_user(user_id):
 # Template loader (for global + sub-app templates)
 app.jinja_loader = ChoiceLoader({
     FileSystemLoader('templates'),
-    FileSystemLoader('src/purchasing/app/templates')
+    FileSystemLoader('src/purchasing/app/templates'),
+    FileSystemLoader('src/inventory/inventory app/templates')
 })
 
 # Config
@@ -60,16 +62,18 @@ csrf.init_app(app)
 flask_session.app = app
 
 # Register Blueprints
-app.register_blueprint(inventory_bp)
+app.register_blueprint(shop_bp)
 app.register_blueprint(single_checkout_bp)
 app.register_blueprint(cart_bp)
 app.register_blueprint(product_bp)
 app.register_blueprint(login_bp, url_prefix='/auth')
+
 app.register_blueprint(main_bp, url_prefix='/purchasing')
 app.register_blueprint(api_bp, url_prefix='/purchasing/api')
-
 app.register_blueprint(shipping_bp, url_prefix='/shipping')
 csrf.exempt(shipping_bp)
+app.register_blueprint(inventory_bp, url_prefix='/inventory')
+csrf.exempt(inventory_bp)
 
 
 # Session helper
@@ -119,9 +123,9 @@ def checkout():
     return render_template('checkout.html')
 
 
-@app.route('/inventory')
+@app.route('/shop')
 def inventory():
-    return render_template('inventory.html')
+    return render_template('shop.html')
 
 
 @app.route('/about')
