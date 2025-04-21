@@ -1,7 +1,7 @@
 """
-src/controllers/inventory_controller.py:
+src/controllers/shop_controller.py:
 This file defines CRUD operations for Inventory.
-(C)reate a new inventory item or (R)ead an
+(C)reate a new shop item or (R)ead an
 existing one.
 - Anthony Allen
 """
@@ -10,7 +10,7 @@ from src.models import Inventory, Product
 from src.utils.db_utils import get_session
 
 
-def create_inventory_item(name, quantity, price):
+def create_shop_item(name, quantity, price):
     with get_session() as sess:
         new_item = Inventory(name=name, quantity=quantity, price=price)
         sess.add(new_item)
@@ -18,14 +18,14 @@ def create_inventory_item(name, quantity, price):
         return new_item
 
 
-def get_inventory_items():
+def get_shop_items():
     with get_session() as sess:
         items = sess.query(Inventory).all()
         # return items
         return [item.to_dict() for item in items]
 
 
-def get_inventory_item_by_id(item_id):
+def get_shop_item_by_id(item_id):
     with get_session() as sess:
         item = sess.query(Inventory).filter(
             Inventory.Inventory_ID == item_id).first()

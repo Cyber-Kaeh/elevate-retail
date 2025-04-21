@@ -6,7 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from sqlalchemy import create_engine
 from src.models.inventory import Base, Inventory
-from src.controllers.inventory_controller import create_inventory_item
+from src.controllers.shop_controller import create_inventory_item
 from config.db_config import DATABASE_URL
 
 def init_db():
