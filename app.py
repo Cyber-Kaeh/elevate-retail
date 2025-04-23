@@ -1,4 +1,7 @@
-import importlib
+from src.models import Customer
+from flask_login import LoginManager, login_required, current_user
+from src.models.forms import LoginForm
+
 import secrets
 import uuid
 import random
@@ -16,12 +19,10 @@ from src.routes.product_routes import product_bp
 
 from src.purchasing.app.main import bp as main_bp
 from src.purchasing.app.api import bp as api_bp
-from src.shipping.FlaskProject.shipping_routes import shipping_bp
-inventory_bp = importlib.import_module('src.inventory.inventory app.routes').inventory_bp
+#from src.shipping.FlaskProject.shipping_routes import shipping_bp
+from src.inventory.complete_inventory_app.routes import inventory_bp
 
 # Flask-Login
-from flask_login import LoginManager, login_required, current_user
-from src.models import Customer
 
 # Create Flask app
 app = Flask(__name__)
@@ -41,7 +42,7 @@ def load_user(user_id):
 app.jinja_loader = ChoiceLoader({
     FileSystemLoader('templates'),
     FileSystemLoader('src/purchasing/app/templates'),
-    FileSystemLoader('src/inventory/inventory app/templates')
+    FileSystemLoader('src/inventory/complete_inventory_app/templates')
 })
 
 # Config
@@ -70,8 +71,8 @@ app.register_blueprint(login_bp, url_prefix='/auth')
 
 app.register_blueprint(main_bp, url_prefix='/purchasing')
 app.register_blueprint(api_bp, url_prefix='/purchasing/api')
-app.register_blueprint(shipping_bp, url_prefix='/shipping')
-csrf.exempt(shipping_bp)
+# app.register_blueprint(shipping_bp, url_prefix='/shipping')
+# csrf.exempt(shipping_bp)
 app.register_blueprint(inventory_bp, url_prefix='/inventory')
 csrf.exempt(inventory_bp)
 
@@ -115,12 +116,6 @@ def make_session_permanent():
 @app.route('/')
 def home():
     return render_template('landing.html')
-
-
-@app.route('/checkout')
-@login_required
-def checkout():
-    return render_template('checkout.html')
 
 
 @app.route('/shop')

@@ -11,7 +11,7 @@ class Shipping(Base):
     Cost = Column(DECIMAL(8, 2), nullable=False)
     Shipped_On = Column(DateTime)
     Expected_By = Column(DateTime)
-    Status = Column(String(15), nullable=False)
+    Ship_Status = Column(String(15), nullable=False)
     Carrier = Column(String(100), nullable=False)
     Tracking_Number = Column(String(50), nullable=False)
     Created_At = Column(DateTime, default=func.now(), nullable=False)

@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, session, redirect, url_for, request, render_template
 from flask_login import current_user
 from src.utils.db_utils import db
-from src.models import ShoppingCart, ShoppingCartItem, Product, Inventory, forms
+from src.models import ShoppingCart, ShoppingCartItem, Product, Inventory, Order, OrderItem, forms
 from src.controllers.shop_controller import get_shop_item_by_id
 from sqlalchemy.exc import SQLAlchemyError
 import random
@@ -36,7 +36,7 @@ def add_to_cart(item_id):
 
         if not shopping_cart:
             shopping_cart = ShoppingCart(
-                Customer_ID=current_user.id if current_user.is_authenticated else customer_id,
+                Customer_ID=current_user.Customer_ID if current_user.is_authenticated else customer_id,
                 Session_ID=session_id)
             db.session.add(shopping_cart)
             db.session.commit()
@@ -197,7 +197,7 @@ def view_cart():
         anonymous_user = generate_anonymous_user_id()
         shopping_cart = ShoppingCart(
             Cart_ID=anonymous_user,
-            Customer_ID=current_user.id if current_user.is_authenticated else anonymous_user,
+            Customer_ID=current_user.Customer_ID if current_user.is_authenticated else anonymous_user,
             Session_ID=session_id)
         db.session.add(shopping_cart)
         db.session.commit()
@@ -228,6 +228,68 @@ def view_cart():
         })
     # Calculate the total price
     return render_template('cart.html', items=items, total_price=total_price, alert_message=alert_message, form=form)
+
+
+@cart_bp.route('/confirm_purchase', methods=['GET'])
+def confirm_purchase():
+    if current_user.is_authenticated:
+        # If the user is logged in, redirect to the checkout page
+        return redirect(url_for('cart.checkout'))
+    else:
+        # If the user is not logged in, redirect to the login page
+        flash('Please log in to proceed to checkout.', 'info')
+        return redirect(url_for('login.login', next=url_for('cart.process_checkout')))
+
+
+@cart_bp.route('/process_checkout', methods=['POST'])
+def process_checkout():
+    if current_user.is_authenticated:
+        customer_id = current_user.Customer_ID
+    else:
+        flash('You must be logged in to complete the purchase.', 'danger')
+        return redirect(url_for('login.login'))
+
+    # Create a new order
+    new_order = Order(Customer_ID=customer_id)
+    db.session.add(new_order)
+    db.session.commit()
+
+    # Get the user's shopping cart
+    shopping_cart = db.session.query(ShoppingCart).filter_by(
+        Customer_ID=customer_id).first()
+
+    if not shopping_cart:
+        flash('Your cart is empty.', 'danger')
+        return redirect(url_for('cart.view_cart'))
+
+    # Add items from the cart to the Order_Item table
+    cart_items = db.session.query(ShoppingCartItem).filter_by(
+        Cart_ID=shopping_cart.Cart_ID).all()
+    for item in cart_items:
+        order_item = OrderItem(
+            Order_ID=new_order.Order_ID,
+            Inventory_ID=item.Inventory_ID,
+            Quantity=item.Quantity,
+            Amount=item.Quantity * item.inventory_item_cart.Unit_Price,
+            Tax=0.0  # Add tax calculation logic if needed
+        )
+        db.session.add(order_item)
+
+    # Clear the shopping cart
+    db.session.query(ShoppingCartItem).filter_by(
+        Cart_ID=shopping_cart.Cart_ID).delete()
+    db.session.commit()
+
+    flash('Your order has been placed successfully!', 'success')
+    return redirect(url_for('home'))
+
+
+@cart_bp.route('/checkout', methods=['GET'])
+def checkout():
+    if not current_user.is_authenticated:
+        flash('Please log in to proceed to checkout.', 'info')
+        return redirect(url_for('login.login', next=url_for('cart.checkout')))
+    return render_template('checkout.html')
 
 
 @cart_bp.app_context_processor

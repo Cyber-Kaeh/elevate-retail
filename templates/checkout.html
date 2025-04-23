@@ -1,69 +1,73 @@
-<!--
-I implemented a simple modal here to show an example of how we can can
-perform a single purchase. The modal can be used to capture any information
-we need from the user. There is an example on the Bootstrap Docs page
-that will handle form validation here:
-https://getbootstrap.com/docs/5.3/forms/validation/
--Anthony Allen
--->
+{% extends "base.html" %} {% block title %}Checkout{% endblock %} {% block
+content %}
+<div class="container">
+  <div class="py-5 text-center">
+    <img
+      class="mb-4 d-block mx-auto"
+      src="Elevate-Retail logo.jpg"
+      alt="Elevate Retail Logo"
+      width="100"
+      height="100"
+    />
+    <h2>Payment</h2>
+    <p class="lead">Please enter your payment details below.</p>
+  </div>
+</div>
 
-{% extends "base.html" %}
-
-{% block title %}Checkout{% endblock %}
-
-{% block content %}
-<div class="container mt-5 p-3 rounded shadow">
-    <h1>Checkout</h1>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.name }}</h5>
-                    <p class="card-text">Price: ${{ item.price }}</p>
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal">
-                        Confirm Purchase
-                    </button>
-                    <a href="/inventory" class="btn btn-secondary">Cancel</a>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="confirmModalLabel">Confirm Purchase</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Thank you for shopping with Elevate Retail!
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <a href="/inventory" class="btn btn-primary">Continue Shopping</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="container">
+  <form action="{{ url_for('cart.process_checkout') }}" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="row my-3 gy-3">
+      <div class="col-md-6">
+        <label for="fullname" class="form-label"> Name on Card </label>
+        <input
+          id="fullname"
+          name="fullname"
+          type="text"
+          class="form-control"
+          required
+        />
+        <small class="text-muted">Full name as displayed on card</small>
+        <div class="invalid-feedback">Name on card is required.</div>
+      </div>
+      <div class="col-md-6">
+        <label for="c-number" class="form-label"> Number on Card </label>
+        <input
+          id="c-number"
+          name="card_number"
+          type="text"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Card number is required.</div>
+      </div>
+      <div class="col-md-3">
+        <label for="c-expire" class="form-label"> Expiration </label>
+        <input
+          id="c-expire"
+          name="expiration"
+          type="text"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Expiration is required.</div>
+      </div>
+      <div class="col-md-3">
+        <label for="c-cvv" class="form-label"> CVV </label>
+        <input
+          id="c-cvv"
+          name="cvv"
+          type="text"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">CVV is required.</div>
+      </div>
     </div>
-</div>
-<div class="mt-5">
-    <h2>Shopping Cart</h2>
-    {% if session.cart %}
-    <ul class="list-group">
-        {% for item_id in session.cart %}
-        <li class="list-group-item">
-            Item ID: {{ item_id }}
-            Item Name: {{ item.name }}
-            Item Price: ${{ item.price }}
-            <a href="/remove_from_cart/{{ item_id }}" class="btn btn-danger btn-sm float-right">Remove</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>Your cart is empty.</p>
-    {% endif %}
-</div>
+    <hr class="my-4" />
+    <button class="btn btn-primary btn-lg btn-block" type="submit">
+      Confirm Payment
+    </button>
+  </form>
 </div>
 {% endblock %}
