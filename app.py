@@ -19,7 +19,7 @@ from src.routes.product_routes import product_bp
 
 from src.purchasing.app.main import bp as main_bp
 from src.purchasing.app.api import bp as api_bp
-from src.shipping.FlaskProject.shipping_routes import shipping_bp
+#from src.shipping.FlaskProject.shipping_routes import shipping_bp
 from src.inventory.complete_inventory_app.routes import inventory_bp
 
 # Flask-Login
