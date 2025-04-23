@@ -1,15 +1,7 @@
 from src.models import Customer
 from flask_login import LoginManager, login_required, current_user
-from src.shipping.FlaskProject.shipping_routes import shipping_bp
-from src.inventory.complete_inventory_app.routes import inventory_bp
-from src.purchasing.app.api import bp as api_bp
-from src.purchasing.app.main import bp as main_bp
-from src.routes.product_routes import product_bp
-from src.routes.login_routes import login_bp
-from src.routes.cart_routes import cart_bp
-from src.routes.shop_routes import shop_bp, single_checkout_bp
 from src.models.forms import LoginForm
-import importlib
+
 import secrets
 import uuid
 import random
@@ -18,8 +10,17 @@ from src.utils.db_utils import db, csrf, session as flask_session
 from werkzeug import *
 from flask_wtf.csrf import CSRFProtect
 from jinja2 import ChoiceLoader, FileSystemLoader
-from dotenv import load_dotenv
-load_dotenv()
+
+from src.models.forms import LoginForm
+from src.routes.shop_routes import shop_bp, single_checkout_bp
+from src.routes.cart_routes import cart_bp
+from src.routes.login_routes import login_bp
+from src.routes.product_routes import product_bp
+
+from src.purchasing.app.main import bp as main_bp
+from src.purchasing.app.api import bp as api_bp
+from src.shipping.FlaskProject.shipping_routes import shipping_bp
+from src.inventory.complete_inventory_app.routes import inventory_bp
 
 # Flask-Login
 
