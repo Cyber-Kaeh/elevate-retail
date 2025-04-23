@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from .base import Base
@@ -10,8 +10,7 @@ class Order(Base):
     Order_ID = Column(Integer, primary_key=True, autoincrement=True)
     Customer_ID = Column(Integer, ForeignKey(
         'Customer.Customer_ID'), nullable=False)
-    Order_Date = Column(DateTime, default=lambda: datetime.now(
-        datetime.timezone.utc), nullable=False)
+    Order_Date = Column(DateTime, default=func.now(), nullable=False)
 
     customer = relationship("Customer", back_populates="customer_id")
     discounts = relationship("Discount", back_populates="order")

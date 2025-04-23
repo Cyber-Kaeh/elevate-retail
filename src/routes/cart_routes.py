@@ -270,7 +270,7 @@ def process_checkout():
             Order_ID=new_order.Order_ID,
             Inventory_ID=item.Inventory_ID,
             Quantity=item.Quantity,
-            Amount=item.Quantity * item.inventory_item_order.Unit_Price,
+            Amount=item.Quantity * item.inventory_item_cart.Unit_Price,
             Tax=0.0  # Add tax calculation logic if needed
         )
         db.session.add(order_item)
