@@ -1,4 +1,3 @@
-import importlib
 import secrets
 import uuid
 import random
@@ -17,7 +16,7 @@ from src.routes.product_routes import product_bp
 from src.purchasing.app.main import bp as main_bp
 from src.purchasing.app.api import bp as api_bp
 from src.shipping.FlaskProject.shipping_routes import shipping_bp
-inventory_bp = importlib.import_module('src.inventory.inventory app.routes').inventory_bp
+from src.inventory.complete_inventory_app.routes import inventory_bp
 
 # Flask-Login
 from flask_login import LoginManager, login_required, current_user
@@ -41,7 +40,7 @@ def load_user(user_id):
 app.jinja_loader = ChoiceLoader({
     FileSystemLoader('templates'),
     FileSystemLoader('src/purchasing/app/templates'),
-    FileSystemLoader('src/inventory/inventory app/templates')
+    FileSystemLoader('src/inventory/complete_inventory_app/templates')
 })
 
 # Config
