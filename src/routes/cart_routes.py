@@ -238,7 +238,7 @@ def confirm_purchase():
     else:
         # If the user is not logged in, redirect to the login page
         flash('Please log in to proceed to checkout.', 'info')
-        return redirect(url_for('login.login', next=url_for('cart.process_checkout')))
+        return redirect(url_for('login.login', next=url_for('cart.checkout')))
 
 
 @cart_bp.route('/process_checkout', methods=['POST'])
