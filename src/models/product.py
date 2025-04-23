@@ -21,7 +21,7 @@ class Product(Base):
     supplier = relationship("Supplier", back_populates="supplied_products")
     purchase_order_items = relationship(
         "PurchaseOrderItem", back_populates="ordered_product")
-    inventory = relationship("Inventory", back_populates="stored_product")
+    inventory = relationship("Inventory", back_populates="product")
     discounts = relationship("Discount", back_populates="discounted_product")
 
     def to_dict(self):

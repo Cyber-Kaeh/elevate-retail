@@ -21,11 +21,11 @@ class Inventory(Base):
                         name='chk_inventory_unit_price_non_negative'),
     )
 
-    stored_product = relationship('Product', back_populates='inventory')
     cart_items_inv = relationship(
         "ShoppingCartItem", back_populates="inventory_item_cart")
     order_item_inv = relationship(
         "OrderItem", back_populates="inventory_item_order")
+    product = relationship("Product", back_populates="inventory")
 
     def to_dict(self):
         return {

@@ -9,7 +9,7 @@ class PurchaseOrderItem(Base):
     Purchase_Order_Item_ID = Column(
         Integer, primary_key=True, autoincrement=True)
     Purchase_Order_ID = Column(Integer, ForeignKey(
-        'Purchase_Order.id'), nullable=False)
+        'Purchase_Order.Purchase_Order_ID'), nullable=False)
     Product_ID = Column(Integer, ForeignKey(
         'Product.Product_ID'), nullable=False)
     Quantity = Column(Integer, nullable=False)
