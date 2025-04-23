@@ -36,7 +36,7 @@ def add_to_cart(item_id):
 
         if not shopping_cart:
             shopping_cart = ShoppingCart(
-                Customer_ID=current_user.id if current_user.is_authenticated else customer_id,
+                Customer_ID=current_user.Customer_ID if current_user.is_authenticated else customer_id,
                 Session_ID=session_id)
             db.session.add(shopping_cart)
             db.session.commit()
