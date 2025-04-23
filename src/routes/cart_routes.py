@@ -230,6 +230,17 @@ def view_cart():
     return render_template('cart.html', items=items, total_price=total_price, alert_message=alert_message, form=form)
 
 
+@cart_bp.route('/confirm_purchase', methods=['GET'])
+def confirm_purchase():
+    if current_user.is_authenticated:
+        # If the user is logged in, redirect to the checkout page
+        return redirect(url_for('cart.checkout'))
+    else:
+        # If the user is not logged in, redirect to the login page
+        flash('Please log in to proceed to checkout.', 'info')
+        return redirect(url_for('login.login', next=url_for('cart.process_checkout')))
+
+
 @cart_bp.route('/process_checkout', methods=['POST'])
 def process_checkout():
     if current_user.is_authenticated:
@@ -271,6 +282,14 @@ def process_checkout():
 
     flash('Your order has been placed successfully!', 'success')
     return redirect(url_for('home'))
+
+
+@cart_bp.route('/checkout', methods=['GET'])
+def checkout():
+    if not current_user.is_authenticated:
+        flash('Please log in to proceed to checkout.', 'info')
+        return redirect(url_for('login.login', next=url_for('cart.checkout')))
+    return render_template('checkout.html')
 
 
 @cart_bp.app_context_processor
