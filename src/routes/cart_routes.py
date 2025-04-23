@@ -197,7 +197,7 @@ def view_cart():
         anonymous_user = generate_anonymous_user_id()
         shopping_cart = ShoppingCart(
             Cart_ID=anonymous_user,
-            Customer_ID=current_user.id if current_user.is_authenticated else anonymous_user,
+            Customer_ID=current_user.Customer_ID if current_user.is_authenticated else anonymous_user,
             Session_ID=session_id)
         db.session.add(shopping_cart)
         db.session.commit()
