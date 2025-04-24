@@ -8,12 +8,13 @@ DROP TABLE IF EXISTS Shopping_Cart;
 DROP TABLE IF EXISTS Purchase_Order_Item;
 DROP TABLE IF EXISTS Purchase_Order;
 DROP TABLE IF EXISTS Inventory;
-DROP TABLE IF EXISTS [Product];
+DROP TABLE IF EXISTS Product;
 DROP TABLE IF EXISTS Supplier;
 DROP TABLE IF EXISTS Product_Category;
 DROP TABLE IF EXISTS Customer_Address;
 DROP TABLE IF EXISTS Customer;
-DROP TABLE IF EXISTS [Member];
+DROP TABLE IF EXISTS Member;
+
 
 -- Member Table: Stores membership levels and their discount rates.
 CREATE TABLE Member (
@@ -27,12 +28,12 @@ CREATE TABLE Customer (
     First_Name VARCHAR(50) NOT NULL,
     Last_Name VARCHAR(50) NOT NULL,
     Email VARCHAR(254) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NULL,
     Phone VARCHAR(20),
     Membership_Level VARCHAR(50) NOT NULL,
     Created_At DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
     Updated_At DATETIME2 NULL,
     Deleted_At DATETIME2 NULL,
-	PasswordHash VARCHAR(255) NULL
     CONSTRAINT FK_Customer_Member FOREIGN KEY (Membership_Level)
         REFERENCES Member(Membership_Level)
 );
@@ -123,12 +124,12 @@ CREATE TABLE Inventory (
 -- Shopping_Cart Table: Stores customer shopping cart details.
 CREATE TABLE Shopping_Cart (
     Cart_ID INT IDENTITY(1,1) PRIMARY KEY,
-    Customer_ID INT NULL,
+    Customer_ID INT NOT NULL,
+    Session_ID NVARCHAR(50) NULL,
     Created_At DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
     Updated_At DATETIME2 NULL,
-	[Session_ID] VARCHAR(128) NULL
-    CONSTRAINT FK_Cart_Customer FOREIGN KEY (Customer_ID)
-        REFERENCES Customer(Customer_ID)
+    -- CONSTRAINT FK_Cart_Customer FOREIGN KEY (Customer_ID)
+    --     REFERENCES Customer(Customer_ID)
 );
 
 -- Shopping_Cart_Item Table: Stores items within a shopping cart.
@@ -175,7 +176,7 @@ CREATE TABLE Payment (
     Payment_ID INT IDENTITY(1,1) PRIMARY KEY,
     Order_ID INT NOT NULL,
     Method VARCHAR(50) NOT NULL,
-    Payment_Status VARCHAR(50) NULL CHECK (Payment_Status IN ('Pending', 'Completed', 'Failed', 'Refunded')),
+    Payment_Status VARCHAR(50) NULL CHECK (Payment_Status IN ('Pending', 'Completed', 'Failed')),
     Created_At DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
     Updated_At DATETIME2 NULL,
     CONSTRAINT FK_Payment_Order FOREIGN KEY (Order_ID)
