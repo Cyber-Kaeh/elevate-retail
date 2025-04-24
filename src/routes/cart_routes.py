@@ -17,26 +17,21 @@ def generate_anonymous_user_id():
 def add_to_cart(item_id):
     session_id = request.cookies.get('session_id')
 
-    if current_user.is_authenticated:
-        customer_id = current_user.Customer_ID
-    else:
-        customer_id = generate_anonymous_user_id()
-
     if not session_id:
         flash('Your cart is empty!', 'info')
         return redirect(url_for('cart.view_cart'))
 
+    customer_id = current_user.Customer_ID if current_user.is_authenticated else None
+
     try:
-        if current_user.is_authenticated:
-            shopping_cart = db.session.query(ShoppingCart).filter_by(
-                Customer_ID=customer_id).first()
-        else:
-            shopping_cart = db.session.query(ShoppingCart).filter_by(
-                Session_ID=session_id).first()
+        shopping_cart = db.session.query(ShoppingCart).filter_by(
+            Customer_ID=customer_id if current_user.is_authenticated else None,
+            Session_ID=session_id
+        ).first()
 
         if not shopping_cart:
             shopping_cart = ShoppingCart(
-                Customer_ID=current_user.Customer_ID if current_user.is_authenticated else customer_id,
+                Customer_ID=customer_id,
                 Session_ID=session_id)
             db.session.add(shopping_cart)
             db.session.commit()
@@ -73,22 +68,17 @@ def add_to_cart(item_id):
 def remove_from_cart(item_id):
     session_id = request.cookies.get('session_id')
 
-    if current_user.is_authenticated:
-        customer_id = current_user.Customer_ID
-    else:
-        customer_id = generate_anonymous_user_id()
-
-    if not session_id and not current_user.is_authenticated:
+    if not session_id:
         flash('Your cart is empty!', 'info')
         return redirect(url_for('cart.view_cart'))
 
+    customer_id = current_user.Customer_ID if current_user.is_authenticated else None
+
     try:
-        if current_user.is_authenticated:
-            shopping_cart = db.session.query(ShoppingCart).filter_by(
-                Customer_ID=customer_id).first()
-        else:
-            shopping_cart = db.session.query(ShoppingCart).filter_by(
-                Session_ID=session_id).first()
+        shopping_cart = db.session.query(ShoppingCart).filter_by(
+            Customer_ID=customer_id,
+            Session_ID=session_id
+        ).first()
 
         if not shopping_cart:
             flash('Your cart is empty!', 'info')
@@ -124,9 +114,12 @@ def remove_from_cart(item_id):
 @cart_bp.route('/remove_all_of_item/<int:item_id>', methods=['GET'])
 def remove_all_of_item(item_id):
     session_id = request.cookies.get('session_id')
+
     if not session_id:
         flash('Your cart is empty!', 'info')
         return redirect(url_for('cart.view_cart'))
+
+    customer_id = current_user.Customer_ID if current_user.is_authenticated else None
 
     try:
         shopping_cart = db.session.query(ShoppingCart).filter_by(
