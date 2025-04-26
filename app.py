@@ -16,6 +16,7 @@ from src.routes.shop_routes import shop_bp, single_checkout_bp
 from src.routes.cart_routes import cart_bp
 from src.routes.login_routes import login_bp
 from src.routes.product_routes import product_bp
+from src.routes.order_routes import order_bp
 
 from src.purchasing.app.main import bp as main_bp
 from src.purchasing.app.api import bp as api_bp
@@ -42,7 +43,8 @@ def load_user(user_id):
 app.jinja_loader = ChoiceLoader({
     FileSystemLoader('templates'),
     FileSystemLoader('src/purchasing/app/templates'),
-    FileSystemLoader('src/inventory/complete_inventory_app/templates')
+    FileSystemLoader('src/inventory/complete_inventory_app/templates'),
+    FileSystemLoader('src/shipping/FlaskProject/templates')
 })
 
 # Config
@@ -68,6 +70,8 @@ app.register_blueprint(single_checkout_bp)
 app.register_blueprint(cart_bp)
 app.register_blueprint(product_bp)
 app.register_blueprint(login_bp, url_prefix='/auth')
+app.register_blueprint(order_bp)
+csrf.exempt(order_bp)
 
 app.register_blueprint(main_bp, url_prefix='/purchasing')
 app.register_blueprint(api_bp, url_prefix='/purchasing/api')

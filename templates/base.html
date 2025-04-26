@@ -77,6 +77,13 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
               {% if current_user.is_authenticated %}
               <li class="nav-item">
+                <a
+                  class="nav-link fs-5 px-3"
+                  href="{{ url_for('order.orders') }}">
+                  Manage Orders
+                </a>
+              </li>
+              <li class="nav-item">
                 <span class="nav-link fs-5 px-3"
                   >Hi, {{ current_user.First_Name }}!</span
                 >

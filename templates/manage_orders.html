@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block title %}Orders{% endblock %} {% block content
+    %}
+    
+    <div
+      class="container mt-5 p-3 rounded shadow"
+      style="background-color: #c2d6d6"
+    >
+      <h1>Manage Orders</h1>
+      {% if orders %}
+      <table
+        class="table table-hover table-secondary table-striped p-5 rounded-3 overflow-hidden shadow"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Order ID</th>
+            <th scope="col">Order Date</th>
+            <th scope="col">Track Order</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td>{{ order['Order_ID'] }}</td>
+            <td>{{ order['Order_Date'].strftime('%A, %B %d, %Y') }}</td>
+            <td>
+                <form action="/track_order" method="post">
+                    <input type="hidden" name="order_id" value="{{ order['Order_ID'] }}">
+                    <button type="submit" class="btn btn-primary">Track Order</button>
+                </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    
+      {% else %}
+      <p>No orders found.</p>
+      {% endif %}
+    </div>
+    {% endblock %}
+    
